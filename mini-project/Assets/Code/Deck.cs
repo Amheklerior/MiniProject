@@ -47,6 +47,7 @@ namespace Amheklerior.Solitaire {
 
             var card = cardObj.AddComponent<Card>();
             card.Init(seed, number, _cardImageProvider);
+            OnCardCreated?.Invoke(card);
             return card;
         }
 

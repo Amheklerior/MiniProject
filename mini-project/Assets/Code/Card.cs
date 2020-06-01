@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 namespace Amheklerior.Solitaire {
     
     [RequireComponent(typeof(SpriteRenderer))]
     public class Card : MonoBehaviour {
 
+        public static readonly float MOVEMENT_ANIMATION_TIME = 0.2f;
         public static readonly bool FACING_UP = true;
         public static readonly bool FACING_DOWN = false;
         
@@ -15,7 +17,7 @@ namespace Amheklerior.Solitaire {
         
         public Vector3 Position {
             get => transform.position;
-            set => transform.position = value;
+            set => transform.DOMove(value, MOVEMENT_ANIMATION_TIME);
         }
 
         public void Init(Seed seed, Number number, CardImageProvider cardImageProvider) {
@@ -27,9 +29,10 @@ namespace Amheklerior.Solitaire {
         }
 
         public void Flip() => IsFacingUp = !IsFacingUp;
-        
+
 
         #region Internals
+
 
         private Transform _transform;
         private SpriteRenderer _renderer;

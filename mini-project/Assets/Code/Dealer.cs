@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Amheklerior.Solitaire {
@@ -26,6 +27,8 @@ namespace Amheklerior.Solitaire {
 
         #region Internals
 
+        private static readonly float DEALING_ANIMATION_TIME = 0.05f;
+
         private Transform _transform;
 
         private void Init() {
@@ -37,7 +40,10 @@ namespace Amheklerior.Solitaire {
         
         private void CreateDeck() {
             _transform = transform;
-            _deck.OnCardCreated = card => card.transform.parent = _transform;
+            _deck.OnCardCreated += card => {
+                card.transform.parent = _transform;
+                card.transform.position = _dealingDeckTransform.position;
+            };
             _deck.GenerateCards();
         }
 
@@ -49,26 +55,39 @@ namespace Amheklerior.Solitaire {
                 column.Clear();
         }
 
-        private void DealCards() {
-            PlaceDeck();
-            DealFacedDownCards();
-            DealFacedUpCards();
-        }
-        
         [ContextMenu("Place Deck")]
+        private void DealCards() => StartCoroutine(DealCards_Coroutine());
+
         private void PlaceDeck() => _dealingDeck.SetCards(_deck.Cards);
 
+        private IEnumerator DealCards_Coroutine() {
+            PlaceDeck();
+            yield return new WaitForSeconds(0.1f);
+            DealFacedDownCards();
+        }
+
         [ContextMenu("Deal Faced-Down Cards")]
-        private void DealFacedDownCards() {
+        private void DealFacedDownCards() => StartCoroutine(DealFacedDownCards_Coroutine());
+
+        private IEnumerator DealFacedDownCards_Coroutine() {
+            var WaitForAnimationToComplete = new WaitForSeconds(DEALING_ANIMATION_TIME);
             for (int i = 0; i < _playingColumns.Length - 1; i++)
-                for (int j = i + 1; j < _playingColumns.Length; j++) 
+                for (int j = i + 1; j < _playingColumns.Length; j++) {
                     PlaceOnTable(_playingColumns[j], _dealingDeck.Take(), Card.FACING_DOWN);
+                    yield return WaitForAnimationToComplete;
+                }
+            DealFacedUpCards();
         }
 
         [ContextMenu("Deal Faced-Up Cards")]
-        private void DealFacedUpCards() {
-            foreach (CardStack stack in _playingColumns)
+        private void DealFacedUpCards() => StartCoroutine(DealFacedUpCards_Coroutine());
+
+        private IEnumerator DealFacedUpCards_Coroutine() {
+            var WaitForAnimationToComplete = new WaitForSeconds(DEALING_ANIMATION_TIME);
+            foreach (CardStack stack in _playingColumns) { 
                 PlaceOnTable(stack, _dealingDeck.Take(), Card.FACING_UP);
+                yield return WaitForAnimationToComplete;
+            }
         }
 
         private static void PlaceOnTable(CardStack stack, Card card, bool facingUp) {

@@ -49,18 +49,12 @@ namespace Amheklerior.Solitaire {
     }
 
 
-
-
     public class DealingStack : CardStack {
 
         public DealingStack(Vector3 stackPositionOnTable) : base(stackPositionOnTable) { }
 
         public void SetCards(ICollection<Card> newCards) {
-            _stack.Clear();
-            foreach (Card card in newCards) {
-                _stack.Push(card);
-                card.Position = _positionOnTable + _positionOffset * _stack.Count;
-            }
+            _stack = new Stack<Card>(newCards);
             TopCard.gameObject.SetActive(true);
         }
     }
@@ -72,33 +66,7 @@ namespace Amheklerior.Solitaire {
         protected override Vector3 GetOffset() => _defaultOffset + Vector3.down * OFFSET;
 
         public PlayingStack(Vector3 stackPositionOnTable) : base(stackPositionOnTable) { }
-        
-        /*
-        public override Card Take() {
-            if (!TopCard.IsFacingUp) TopCard.Flip();
-            return base.Take();
-        }
-        */
     }
-
-
-    /*
-     * TODO -- IF IMPLEMENTING THE SERVE THREE
-
-    public class ServingStack : CardStack {
     
-        private static readonly float OFFSET = 0.5f;
-        protected override Vector3 GetOffset() => _defaultOffset + Vector3.right * OFFSET;
-
-        public ServingStack(Vector3 stackPositionOnTable) : base(stackPositionOnTable) { }
-
-        public override void Put(Card card) {
-            if (_stack.Count != 0) TopCard.gameObject.SetActive(false);
-            base.Put(card);
-        }
-
-    }
-    */
-
 }
 
