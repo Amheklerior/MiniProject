@@ -8,9 +8,11 @@ namespace Amheklerior.Solitaire {
         
         [SerializeField] private Deck _deck;
         [SerializeField] private Transform _dealingDeckTransform;
+        [SerializeField] private Transform _pickupTransform;
         [SerializeField] private Transform[] _playingColumnTransforms;
         
         private DealingStack _dealingDeck;
+        private CardStack _pickUpStack;
         private PlayingStack[] _playingColumns;
 
         private void Awake() {
@@ -24,6 +26,17 @@ namespace Amheklerior.Solitaire {
             DealCards();
         }
 
+        private void OnMouseUpAsButton() {
+            if (_dealingDeck.HasCards)
+                PlaceOnTable(_pickUpStack, _dealingDeck.Take(), Card.FACING_UP);
+            else MoveBetweenStacks(_pickUpStack, _dealingDeck);
+        }
+
+        // TOTO --  find better place?
+        private static void MoveBetweenStacks(CardStack origin, CardStack destination) {
+            while (origin.HasCards) destination.Put(origin.Take());
+        }
+
 
         #region Internals
 
@@ -33,6 +46,7 @@ namespace Amheklerior.Solitaire {
 
         private void Init() {
             _dealingDeck = new DealingStack(_dealingDeckTransform.position);
+            _pickUpStack = new CardStack(_pickupTransform.position);
             _playingColumns = new PlayingStack[_playingColumnTransforms.Length];
             for (int i = 0; i < _playingColumns.Length; i++)
                 _playingColumns[i] = new PlayingStack(_playingColumnTransforms[i].position);
@@ -91,7 +105,8 @@ namespace Amheklerior.Solitaire {
         }
 
         private static void PlaceOnTable(CardStack stack, Card card, bool facingUp) {
-            card.IsFacingUp = facingUp;
+            if (card.IsFacingUp != facingUp)
+                card.Flip();
             stack.Put(card);
         }
         

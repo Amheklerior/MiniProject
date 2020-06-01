@@ -9,7 +9,6 @@ namespace Amheklerior.Solitaire {
     public class Deck : ScriptableObject {
 
         [SerializeField] private CardImageProvider _cardImageProvider;
-        [SerializeField] private float _cardScaleMultiplier = 0.4f;
 
         public Action<Card> OnCardCreated;
 
@@ -21,7 +20,6 @@ namespace Amheklerior.Solitaire {
         public void GenerateCards() {
             Seed seed;
             Number number;
-
             for (int i = 0; i < CARDS_IN_DECK; i++) {
                 GetSeedAndNumberByIndex(i, out seed, out number);
                 _cards[i] = CreateCard(seed, number);
@@ -42,9 +40,6 @@ namespace Amheklerior.Solitaire {
         private Card CreateCard(Seed seed, Number number) {
             var cardObj = new GameObject($"{number} of {seed}");
             cardObj.SetActive(false);
-            cardObj.transform.localScale = Vector3.one * _cardScaleMultiplier;
-            cardObj.AddComponent<SpriteRenderer>();
-
             var card = cardObj.AddComponent<Card>();
             card.Init(seed, number, _cardImageProvider);
             OnCardCreated?.Invoke(card);
