@@ -45,6 +45,7 @@ namespace Amheklerior.Solitaire {
         private Transform _transform;
 
         private void Init() {
+            //_transform.position = _dealingDeckTransform.position + Vector3.back * 10;
             _dealingDeck = new DealingStack(_dealingDeckTransform.position);
             _pickUpStack = new CardStack(_pickupTransform.position);
             _playingColumns = new PlayingStack[_playingColumnTransforms.Length];

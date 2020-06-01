@@ -61,7 +61,7 @@ namespace Amheklerior.Solitaire {
         }
 
         private void InitCollider(BoxCollider2D collider) {
-            collider.size = _renderer.size;
+            collider.size = new Vector2(0.65f, 1f);
             collider.isTrigger = true;
         }
 

@@ -38,7 +38,7 @@ namespace Amheklerior.Solitaire {
 
         #region Internals 
 
-        protected static readonly float DEPTH_OFFSET = -0.25f;
+        [SerializeField] protected float DEPTH_OFFSET = -0.1f;
         protected static readonly Vector3 _defaultOffset = Vector3.zero;
         protected readonly Vector3 _positionOnTable;
         protected readonly Vector3 _positionOffset;
@@ -82,7 +82,7 @@ namespace Amheklerior.Solitaire {
     
     public class PlayingStack : CardStack {
 
-        private static readonly float VERTICAL_OFFSET = -0.5f;
+        [SerializeField] protected float VERTICAL_OFFSET = -0.2f;
         protected override Vector3 GetOffset() => _defaultOffset + new Vector3(0f, VERTICAL_OFFSET, DEPTH_OFFSET);
 
         public PlayingStack(Vector3 stackPositionOnTable) : base(stackPositionOnTable) { }
