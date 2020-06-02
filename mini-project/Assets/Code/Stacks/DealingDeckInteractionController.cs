@@ -11,6 +11,6 @@ namespace Amheklerior.Solitaire {
             if (_deckStack.HasCards) Debug.Log("PICKUP CARD");
             else Debug.Log("REFILL STACK");
         }
-    }
 
+    }
 }

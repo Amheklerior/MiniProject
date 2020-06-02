@@ -6,14 +6,14 @@ namespace Amheklerior.Solitaire {
     public interface ICardStack {
         bool HasCards { get; }
         Card TopCard { get; }
-        int Count { get; }
+        int CardCount { get; }
         void Put(Card card);
         void PutAll(ICollection<Card> cards);
         Card Take();
         ICollection<Card> TakeAll();
         void Clear();
     }
-
+    
 
     public class CardStackController : ICardStack {
 
@@ -21,37 +21,36 @@ namespace Amheklerior.Solitaire {
 
         public Card TopCard => _stack.Peek();
 
-        public int Count => _cardCount;
+        public int CardCount { get; private set; }
 
         public void Put(Card card) {
             _stack.Push(card);
             OnPut?.Invoke(card);
-            _cardCount++;
+            CardCount++;
         }
 
         public Card Take() {
             var card = _stack.Pop();
             OnTake?.Invoke(card);
-            _cardCount--;
+            CardCount--;
             return card;
         }
 
         public void PutAll(ICollection<Card> cards) {
             _stack = new Stack<Card>(cards);
             OnPutAll?.Invoke(cards);
-            _cardCount += cards.Count;
+            CardCount += cards.Count;
         }
 
         public ICollection<Card> TakeAll() {
             var cards = _stack.ToArray();
             OnTakeAll?.Invoke(cards);
-            _cardCount = 0;
+            CardCount = 0;
             return cards;
         }
 
         public void Clear() => _stack.Clear();
-
-
+        
         #region Internals 
 
         protected readonly Action<Card> OnPut;
@@ -60,8 +59,7 @@ namespace Amheklerior.Solitaire {
         protected readonly Action<ICollection<Card>> OnTakeAll;
 
         private Stack<Card> _stack = new Stack<Card>();
-        private int _cardCount;
-        
+
         public CardStackController(
             Action<Card> onPut = null, 
             Action<Card> onTake = null, 

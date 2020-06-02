@@ -5,12 +5,16 @@ namespace Amheklerior.Solitaire {
     
     public abstract class CardStackComponent : MonoBehaviour, ICardStack {
 
+        #region Fields
+
         private static readonly Vector3 DEFAULT_DIR = Vector3.zero;
 
         protected Vector3 _stackPosition;
         protected Vector3 _stackDirection;
         protected CardStackController _stack;
 
+        #endregion
+        
         private void Awake() {
             _stack = new CardStackController(OnPut, OnTake, OnPutAll, OnTakeAll); 
             _stackPosition = transform.position;
@@ -26,7 +30,7 @@ namespace Amheklerior.Solitaire {
 
         #region Callbacks
 
-        protected virtual void OnPut(Card card) => card.Move(_stackPosition + _stackDirection * _stack.Count);
+        protected virtual void OnPut(Card card) => card.Move(_stackPosition + _stackDirection * _stack.CardCount);
         protected virtual void OnTake(Card card) { }
         protected virtual void OnPutAll(ICollection<Card> cards) { }
         protected virtual void OnTakeAll(ICollection<Card> cards) { }
@@ -37,7 +41,7 @@ namespace Amheklerior.Solitaire {
 
         public bool HasCards => _stack.HasCards;
         public Card TopCard => _stack.TopCard;
-        public int Count => _stack.Count;
+        public int CardCount => _stack.CardCount;
         public void Put(Card card) => _stack.Put(card);
         public void PutAll(ICollection<Card> cards) => _stack.PutAll(cards);
         public Card Take() => _stack.Take();
@@ -48,7 +52,7 @@ namespace Amheklerior.Solitaire {
 
     }
 
-
+    /*
     public class PickableStack : CardStackComponent {
 
         protected override void OnPut(Card card) {
@@ -76,5 +80,5 @@ namespace Amheklerior.Solitaire {
         }
 
     }
-
+    */
 }

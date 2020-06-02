@@ -7,12 +7,13 @@ namespace Amheklerior.Solitaire {
 
         [SerializeField] private PlayerColumnStack _playerStack;
 
-        public bool Interactible => _playerStack.HasCards && !_playerStack.PlayebleCardPile;
+        public bool Interactible => _playerStack.HasCards && !_playerStack.PlayableCard;
 
         private void OnMouseUpAsButton() {
             if (!Interactible || _playerStack.TopCard.IsFacingUp) return;
-            _playerStack.TopCard.Flip();
+            _playerStack.PlayableCard = _playerStack.Take();
+            _playerStack.PlayableCard.Flip();
         }
-        
+
     }
 }

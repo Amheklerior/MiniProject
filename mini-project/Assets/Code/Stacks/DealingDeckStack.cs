@@ -21,6 +21,6 @@ namespace Amheklerior.Solitaire {
                 card.transform.position = _stackPosition;
             _stack.TopCard.gameObject.SetActive(true);
         }
-        
+
     }
 }

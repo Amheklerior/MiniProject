@@ -1,6 +1,8 @@
 ﻿
 namespace Amheklerior.Solitaire {
 
+    #region Enums
+
     public enum Seed {
         HEARTS = 0,
         SQUARES = 1,
@@ -29,6 +31,8 @@ namespace Amheklerior.Solitaire {
         BLACK = 1
     }
 
+    #endregion
+    
     public struct CardData {
         public static readonly bool FACING_UP = true;
         public static readonly bool FACING_DOWN = false;
