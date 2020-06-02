@@ -25,7 +25,7 @@ namespace Amheklerior.Solitaire {
                 throw new MissingReferenceException();
             }
             _renderer = GetComponent<SpriteRenderer>();
-            _controller = new CardController(transform, _movementAnimationTime, _rotationAnimationTime);
+            _controller = new CardController(this, _movementAnimationTime, _rotationAnimationTime);
         }
 
         public void SetCardData(CardData data) {

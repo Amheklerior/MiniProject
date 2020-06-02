@@ -78,7 +78,7 @@ namespace Amheklerior.Solitaire {
                     PlaceOnTable(_playerColumns[j], _dealingStack.Take(), CardData.FACING_DOWN);
                     yield return WaitForAnimationToComplete;
                 }
-            DealFacedUpCards();
+            //DealFacedUpCards();
         }
 
         [ContextMenu("Deal Faced-Up Cards")]

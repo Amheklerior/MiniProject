@@ -12,10 +12,13 @@ namespace Amheklerior.Solitaire {
         protected CardStackController _stack;
 
         private void Awake() {
-            _stack = new CardStackController(OnPut, OnTake, OnPutAll, OnTakeAll);
+            _stack = new CardStackController(OnPut, OnTake, OnPutAll, OnTakeAll); 
             _stackPosition = transform.position;
             _stackDirection = Direction;
+            Init();
         }
+
+        protected virtual void Init() { }
 
         protected virtual Vector3 Direction => DEFAULT_DIR;
 
@@ -44,8 +47,9 @@ namespace Amheklerior.Solitaire {
         #endregion
 
     }
-    
-    public class SeedStack : CardStackComponent {
+
+
+    public class PickableStack : CardStackComponent {
 
         protected override void OnPut(Card card) {
             base.OnPut(card);
@@ -59,7 +63,7 @@ namespace Amheklerior.Solitaire {
 
     }
 
-    public class PickableStack : CardStackComponent {
+    public class SeedStack : CardStackComponent {
 
         protected override void OnPut(Card card) {
             base.OnPut(card);
