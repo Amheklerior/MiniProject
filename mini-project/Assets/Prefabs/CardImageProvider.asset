@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa453f7f12cd774891cb3b1413a321d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a0a11b7ab7489c419663e7e496f95f3, type: 3}
   m_Name: CardImageProvider
   m_EditorClassIdentifier: 
+  _back: {fileID: 21300000, guid: 2d5122940032e2346aa752e69c992654, type: 3}
   _heartsCards:
   - {fileID: 21300000, guid: 0071f1c4feed21c49acd1f2cff7761fb, type: 3}
   - {fileID: 21300000, guid: a8e9a6e49f15817488690c08d7ef595d, type: 3}
@@ -68,4 +69,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: eb02d46e99114e5459f841ba1d596788, type: 3}
   - {fileID: 21300000, guid: 2300a21e747817349b5098eb69b13235, type: 3}
   - {fileID: 21300000, guid: 28a9c613b440b6741b67a00dd287ada4, type: 3}
-  _back: {fileID: 21300000, guid: 2d5122940032e2346aa752e69c992654, type: 3}
+  - {fileID: 21300000, guid: 034a230d5ab509344a9cb05c74d66049, type: 3}
+  - {fileID: 21300000, guid: 69e8818665126934988f5348824d4109, type: 3}
+  - {fileID: 21300000, guid: 4ccddfc9a0ec86743b5df0ace7b112cb, type: 3}
+  - {fileID: 21300000, guid: b109f2102be2eeb4c95b9845e9380c49, type: 3}
+  - {fileID: 21300000, guid: 83b81478c998df74fba4302a1d27b298, type: 3}
+  - {fileID: 21300000, guid: 1c56017cb569b414ca69bc7d8b10ece3, type: 3}
+  - {fileID: 21300000, guid: 8885d9e10e2825240bb8b636051a3e45, type: 3}
+  - {fileID: 21300000, guid: a444a8e4b1db0fa4ba2a5d59d30a83b5, type: 3}
+  - {fileID: 21300000, guid: 5796881da86698842b46ce1ba94d25e7, type: 3}
+  - {fileID: 21300000, guid: 74efa15ebb1bc7341816aa5796b172bc, type: 3}
+  - {fileID: 21300000, guid: 76ada1c422ecd314c81465088cb96217, type: 3}
+  - {fileID: 21300000, guid: 6dfc79297b768014ab892f0bc1c4091e, type: 3}
+  - {fileID: 21300000, guid: 9c46f5f49f68d334f83ca3797381856d, type: 3}

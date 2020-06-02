@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Amheklerior.Solitaire {
+namespace Amheklerior.Solitaire.OLD {
 
     public class CardStack {
 
@@ -73,11 +73,12 @@ namespace Amheklerior.Solitaire {
             OnTake = card => card.gameObject.transform.position = 
                 card.gameObject.transform.position + (Vector3.forward * DEPTH_OFFSET);
         }
-
+        /*
         public void SetCards(ICollection<Card> newCards) {
             _stack = new Stack<Card>(newCards);
             TopCard.gameObject.SetActive(true);
         }
+        */
     }
     
     public class PlayingStack : CardStack {

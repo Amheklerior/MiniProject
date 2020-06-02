@@ -2,7 +2,7 @@
 using System;
 using DG.Tweening;
 
-namespace Amheklerior.Solitaire {
+namespace Amheklerior.Solitaire.OLD {
     
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D))]
     public class Card : MonoBehaviour {
@@ -11,19 +11,19 @@ namespace Amheklerior.Solitaire {
         public static readonly float ROTATION_ANIMATION_TIME = 0.2f;
         public static readonly bool FACING_UP = true;
         public static readonly bool FACING_DOWN = false;
-        
-        public bool IsFacingUp {
+
+        public bool IsFacingUp { get; set; } /* {
             get => CardSprite == _front ? FACING_UP : FACING_DOWN;
             set => CardSprite = value ? _front : _back;
-        }
+        }*/
 
         public bool Selectable => IsFacingUp;
-        
-        public void MoveTo(Vector3 position, Action onComplete = null) {
+
+        public void MoveTo(Vector3 position, Action onComplete = null) { } /*
             transform
                 .DOMove(position, MOVEMENT_ANIMATION_TIME)
                 .OnComplete(() => onComplete?.Invoke());
-        }
+        }*/
 
         public void Flip() {
             transform.DORotate(Vector3.up * 360f, ROTATION_ANIMATION_TIME, RotateMode.FastBeyond360);
@@ -38,10 +38,36 @@ namespace Amheklerior.Solitaire {
             IsFacingUp = false;
         }
 
+        private bool _isSelected = false;
+
         private void OnMouseDown() {
-            if (Selectable) Debug.Log($"The {name} has been selected");
+            if (Selectable) {
+                Debug.Log($"The {name} has been selected");
+                _isSelected = true;
+            }
         }
-        
+
+        private void OnMouseDrag() {
+            if (_isSelected) {
+                Debug.Log($"The {name} is dragged");
+                var fingerPointer = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                fingerPointer.z = -10f;
+                MoveTo(fingerPointer);
+            }
+        }
+
+        private void OnMouseUp() {
+            _isSelected = false;
+            Debug.Log($"The {name} has been dropped");
+        }
+
+        private void OnMouseUpAsButton() {
+            var interactible = true; // TRUE IF THE CARD IS SHOWING THE BACJ AND IS THE TOP CARD OF THE STACK
+            if (interactible) {
+                Flip(); // Flip into place and show the front side.
+            }
+        }
+
         #region Internals
 
         private Transform _transform;

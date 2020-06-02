@@ -1,48 +1,55 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Amheklerior.Solitaire {
-    
-    [CreateAssetMenu(menuName = "Solitaire/Deck")]
-    public class Deck : ScriptableObject {
 
-        [SerializeField] private CardImageProvider _cardImageProvider;
+    public class Deck {
 
-        public Action<Card> OnCardCreated;
-
-        public static readonly int CARDS_IN_DECK = 52;
+        public static readonly int CARDS_COUNT = 52;
         public static readonly int CARDS_PER_SEED = 13;
 
         public ICollection<Card> Cards => _cards;
 
+        public Deck(GameObject cardPrototype, Action<Card> onCardCreated = null) {
+            _cardPrototype = cardPrototype;
+            _onCardCreated = onCardCreated;
+        }
+
         public void GenerateCards() {
             Seed seed;
             Number number;
-            for (int i = 0; i < CARDS_IN_DECK; i++) {
+            for (int i = 0; i < CARDS_COUNT; i++) {
                 GetSeedAndNumberByIndex(i, out seed, out number);
                 _cards[i] = CreateCard(seed, number);
             }
         }
 
-        public void Shuffle() => 
+        public void Shuffle() =>
             _cards = _cards.OrderBy(card => {
                 card.IsFacingUp = false;
                 return UnityEngine.Random.value;
             }).ToArray();
-        
+
+
 
         #region Internals
 
-        private Card[] _cards = new Card[CARDS_IN_DECK];
+        private readonly Action<Card> _onCardCreated;
+        private readonly GameObject _cardPrototype;
+
+        private Card[] _cards = new Card[CARDS_COUNT];
 
         private Card CreateCard(Seed seed, Number number) {
-            var cardObj = new GameObject($"{number} of {seed}");
+            var cardObj = UnityEngine.Object.Instantiate(_cardPrototype);
+            cardObj.name = $"{number} of {seed}";
             cardObj.SetActive(false);
-            var card = cardObj.AddComponent<Card>();
-            card.Init(seed, number, _cardImageProvider);
-            OnCardCreated?.Invoke(card);
+
+            var card = cardObj.GetComponent<Card>();
+            card.SetCardData(new CardData(seed, number));
+
+            _onCardCreated?.Invoke(card);
             return card;
         }
 
