@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Amheklerior.Solitaire {
@@ -7,7 +6,7 @@ namespace Amheklerior.Solitaire {
     public class Dealer : MonoBehaviour {
 
         #region Inspector interface 
-
+            
         [Header("Dependencies:")]
         [SerializeField] private GameObject _cardPrototype;
         [SerializeField] private DealingDeckStack _dealingStack;

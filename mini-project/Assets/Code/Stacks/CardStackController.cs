@@ -7,7 +7,7 @@ namespace Amheklerior.Solitaire {
 
         #region Fields
 
-        private static readonly Vector3 DEFAULT_DIR = Vector3.zero;
+        private static readonly Vector3 DEFAULT_DIR = new Vector3(0f, 0f, -0.1f);
 
         protected Vector3 _stackPosition;
         protected Vector3 _stackDirection;
@@ -51,22 +51,8 @@ namespace Amheklerior.Solitaire {
         #endregion
 
     }
-
+    
     /*
-    public class PickableStack : CardStackComponent {
-
-        protected override void OnPut(Card card) {
-            base.OnPut(card);
-            // specific behabior
-        }
-
-        protected override void OnTake(Card card) {
-            base.OnPut(card);
-            // specific behabior
-        }
-
-    }
-
     public class SeedStack : CardStackComponent {
 
         protected override void OnPut(Card card) {
