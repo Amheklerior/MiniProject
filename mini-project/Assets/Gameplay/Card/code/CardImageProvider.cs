@@ -12,10 +12,10 @@ namespace Amheklerior.Solitaire {
         [SerializeField] private Sprite _back;
 
         [Space, Header("Front Sprites:")]
-        [SerializeField] private Sprite[] _heartsCards = new Sprite[Deck.CARDS_PER_SEED];
-        [SerializeField] private Sprite[] _clubsCards = new Sprite[Deck.CARDS_PER_SEED];
-        [SerializeField] private Sprite[] _squaresCards = new Sprite[Deck.CARDS_PER_SEED];
-        [SerializeField] private Sprite[] _spadesCards = new Sprite[Deck.CARDS_PER_SEED];
+        [SerializeField] private Sprite[] _heartsCards = new Sprite[CardData.CARDS_PER_SEED];
+        [SerializeField] private Sprite[] _clubsCards = new Sprite[CardData.CARDS_PER_SEED];
+        [SerializeField] private Sprite[] _squaresCards = new Sprite[CardData.CARDS_PER_SEED];
+        [SerializeField] private Sprite[] _spadesCards = new Sprite[CardData.CARDS_PER_SEED];
 
         #endregion
 

@@ -1,42 +1,61 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Amheklerior.Solitaire {
 
+    [RequireComponent(typeof(Deck))]
     public class Dealer : MonoBehaviour {
 
         #region Inspector interface 
-            
-        [Header("Dependencies:")]
-        [SerializeField] private GameObject _cardPrototype;
-        //[SerializeField] private DealingDeckStack _dealingStack;
-        //[SerializeField] private PlayerColumnStack[] _playerColumns;
 
+        [SerializeField] private CardGenerator _cardGenerator;
+        
+        /*
+        [SerializeField] private PlayerColumnStack[] _playerColumns;
         [Space, Header("Animation Settings:")]
         [SerializeField] private float _dealingAnimationTime = 0.05f;
+        */
 
         #endregion
         
         void Awake() {
-            if (!_cardPrototype) {
-                Debug.LogError("Dealing deck reference is not set.", _cardPrototype);
-                throw new MissingReferenceException();
-            }
-            //CheckDependencies();
-            CreateDeck();
+            CheckDependencies();
+            InitDeck();
         }
-        
+
         void Start() {
             //ClearTable();
             ShuffleDeck();
+            PlaceDeck();
             //DealCards();
         }
-        
+
         #region Internals
 
         private Deck _deck;
-        
-        private void ShuffleDeck() => _deck.Shuffle();
+        private ICollection<Card> _cards;
+
+        public void ShuffleDeck() => _cards = _cards.OrderBy(card => UnityEngine.Random.value).ToArray();
+
+        private void CheckDependencies() {
+            if (!_cardGenerator) {
+                Debug.LogError("No card generator has been found.", _cardGenerator);
+                throw new MissingReferenceException();
+            }
+        }
+
+        [ContextMenu("Initialize Deck")]
+        private void InitDeck() {
+            _cards = _cardGenerator.GenerateCards();
+            _deck = GetComponent<Deck>();
+        }
+
+        [ContextMenu("Place Deck")]
+        private void PlaceDeck() => _deck.PutAll(_cards);
+
+
         /*
         private void ClearTable() {
             _dealingStack.Clear();
@@ -55,16 +74,8 @@ namespace Amheklerior.Solitaire {
             }
         }
         */
-        [ContextMenu("Generate cards")]
-        private void CreateDeck() {
-            var transform = gameObject.transform;
-            _deck = new Deck(_cardPrototype, card => card.transform.parent = transform);
-            _deck.GenerateCards();
-        }
-        /*
-        [ContextMenu("Place Deck")]
-        private void PlaceDeck() => _dealingStack.PutAll(_deck.Cards);
 
+        /*
         [ContextMenu("Deal Cards")]
         private void DealCards() => StartCoroutine(DealCards_Coroutine());
 

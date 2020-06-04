@@ -2,7 +2,7 @@
 
 namespace Amheklerior.Solitaire {
 
-    public class InputHandler : MonoBehaviour {
+    public class CardInputHandler : MonoBehaviour {
 
         private void OnMouseDown() {
             if (!_card.IsSelectable) return;

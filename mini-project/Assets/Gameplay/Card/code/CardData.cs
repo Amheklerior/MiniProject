@@ -34,6 +34,8 @@ namespace Amheklerior.Solitaire {
     #endregion
     
     public struct CardData {
+        public static readonly int CARDS_COUNT = 52;
+        public static readonly int CARDS_PER_SEED = 13;
         public static readonly bool FACING_UP = true;
         public static readonly bool FACING_DOWN = false;
 
@@ -45,7 +47,6 @@ namespace Amheklerior.Solitaire {
         public Seed Seed { get; }
         public Number Number { get; }
         public Color Color => (Color) ((int) Seed / 2);
-        
     }
 
 }

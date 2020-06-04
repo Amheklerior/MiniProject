@@ -15,6 +15,7 @@ namespace Amheklerior.Solitaire {
 
         #endregion
         
+        // Think to move to init and let others call it?
         private void Awake() {
             _stack = new CardStack(OnPut, OnTake, OnPutAll, OnTakeAll); 
             _stackPosition = transform.position;
@@ -27,10 +28,10 @@ namespace Amheklerior.Solitaire {
         protected virtual Vector3 Direction => DEFAULT_DIR;
 
         protected bool OnlyTopCardIsVisible => Direction == DEFAULT_DIR;
-        
+
         #region Callbacks
 
-        protected virtual void OnPut(Card card) => card.MoveTo(_stackPosition + _stackDirection * _stack.CardCount);
+        protected virtual void OnPut(Card card) { }
         protected virtual void OnTake(Card card) { }
         protected virtual void OnPutAll(ICollection<Card> cards) { }
         protected virtual void OnTakeAll(ICollection<Card> cards) { }
