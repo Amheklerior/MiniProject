@@ -15,7 +15,7 @@ namespace Amheklerior.Solitaire {
     }
     
 
-    public class CardStackController : ICardStack {
+    public class CardStack : ICardStack {
 
         public bool HasCards => _stack.Count > 0;
 
@@ -60,7 +60,7 @@ namespace Amheklerior.Solitaire {
 
         private Stack<Card> _stack = new Stack<Card>();
 
-        public CardStackController(
+        public CardStack(
             Action<Card> onPut = null, 
             Action<Card> onTake = null, 
             Action<ICollection<Card>> onPutAll = null, 

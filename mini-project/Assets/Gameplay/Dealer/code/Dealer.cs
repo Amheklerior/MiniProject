@@ -9,8 +9,8 @@ namespace Amheklerior.Solitaire {
             
         [Header("Dependencies:")]
         [SerializeField] private GameObject _cardPrototype;
-        [SerializeField] private DealingDeckStack _dealingStack;
-        [SerializeField] private PlayerColumnStack[] _playerColumns;
+        //[SerializeField] private DealingDeckStack _dealingStack;
+        //[SerializeField] private PlayerColumnStack[] _playerColumns;
 
         [Space, Header("Animation Settings:")]
         [SerializeField] private float _dealingAnimationTime = 0.05f;
@@ -18,14 +18,18 @@ namespace Amheklerior.Solitaire {
         #endregion
         
         void Awake() {
-            CheckDependencies();
+            if (!_cardPrototype) {
+                Debug.LogError("Dealing deck reference is not set.", _cardPrototype);
+                throw new MissingReferenceException();
+            }
+            //CheckDependencies();
             CreateDeck();
         }
         
         void Start() {
-            ClearTable();
+            //ClearTable();
             ShuffleDeck();
-            DealCards();
+            //DealCards();
         }
         
         #region Internals
@@ -33,7 +37,7 @@ namespace Amheklerior.Solitaire {
         private Deck _deck;
         
         private void ShuffleDeck() => _deck.Shuffle();
-        
+        /*
         private void ClearTable() {
             _dealingStack.Clear();
             foreach (var playerColumn in _playerColumns)
@@ -50,19 +54,19 @@ namespace Amheklerior.Solitaire {
                 throw new MissingReferenceException();
             }
         }
-
+        */
         [ContextMenu("Generate cards")]
         private void CreateDeck() {
             var transform = gameObject.transform;
             _deck = new Deck(_cardPrototype, card => card.transform.parent = transform);
             _deck.GenerateCards();
         }
+        /*
+        [ContextMenu("Place Deck")]
+        private void PlaceDeck() => _dealingStack.PutAll(_deck.Cards);
 
         [ContextMenu("Deal Cards")]
         private void DealCards() => StartCoroutine(DealCards_Coroutine());
-
-        [ContextMenu("Place Deck")]
-        private void PlaceDeck() => _dealingStack.PutAll(_deck.Cards);
 
         [ContextMenu("Deal Faced-Down Cards")]
         private void DealFacedDownCards() => StartCoroutine(DealFacedDownCards_Coroutine());
@@ -70,6 +74,7 @@ namespace Amheklerior.Solitaire {
         [ContextMenu("Deal Faced-Up Cards")]
         private void DealFacedUpCards() => StartCoroutine(DealFacedUpCards_Coroutine());
 
+        #region Coroutines 
 
         private IEnumerator DealCards_Coroutine() {
             PlaceDeck();
@@ -95,7 +100,9 @@ namespace Amheklerior.Solitaire {
                 yield return WaitForAnimationToComplete;
             }
         }
-        
+
+        #endregion
+        */
         #endregion
 
     }

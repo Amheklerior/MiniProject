@@ -43,7 +43,7 @@ namespace Amheklerior.Solitaire {
                 throw new MissingReferenceException();
             }
         }
-
+        
         #endregion
 
     }

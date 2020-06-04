@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Amheklerior.Solitaire {
 
-    [CreateAssetMenu(menuName = "Solitaire/CardImageProvider")]
+    [CreateAssetMenu(menuName = "Solitaire/Card/ImageProvider")]
     public class CardImageProvider : ScriptableObject {
 
         #region Inspector Interface

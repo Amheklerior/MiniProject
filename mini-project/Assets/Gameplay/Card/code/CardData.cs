@@ -42,9 +42,10 @@ namespace Amheklerior.Solitaire {
             Number = number;
         }
 
-        public Seed Seed { get; set; }
-        public Number Number { get; set; }
+        public Seed Seed { get; }
+        public Number Number { get; }
         public Color Color => (Color) ((int) Seed / 2);
+        
     }
 
 }

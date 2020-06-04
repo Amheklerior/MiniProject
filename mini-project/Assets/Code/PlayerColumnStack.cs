@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Amheklerior.Solitaire {
 
@@ -19,27 +20,41 @@ namespace Amheklerior.Solitaire {
         public Card PlayableCard {
             get => _playableCard;
             set {
-                OnPut(value);
+                if (value) base.OnPut(value);
                 _playableCard = value;
+            }
+        }
+
+        public override Card TopCard {
+            get {
+                if (PlayableCard) return TopPlayebleCard;
+                else return base.TopCard;
             }
         }
 
         protected override Vector3 Direction => new Vector3(0f, _verticalOffset, _depthOffset);
 
-        protected override void Init() {
-            base.Init();
-            _collider.Translate(Vector3.down * _verticalOffset);
+        private Card TopPlayebleCard {
+            get {
+                var card = PlayableCard;
+                //while (card.Next != null) card = card.Next;
+                return card;
+            }
         }
 
         protected override void OnPut(Card card) {
             base.OnPut(card);
-            _collider.Translate(Vector3.up * _verticalOffset);
+            UpdateColliderPosition(card);
+            
         }
-        
+
         protected override void OnTake(Card card) {
             base.OnPut(card);
-            _collider.Translate(Vector3.down * _verticalOffset);
+            UpdateColliderPosition(card);
         }
-        
+
+        private void UpdateColliderPosition(Card card) =>
+            _collider.position = _stackPosition + _stackDirection * _stack.CardCount + _stackDirection * 0.5f;
+
     }
 }

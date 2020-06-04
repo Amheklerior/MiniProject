@@ -43,15 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630ab422ad94cac47a7766e59bede3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dealingAnimationTime: 0.05
-  _cardPrototype: {fileID: 6639033135115855176, guid: 9633403f67cd8494c882bf8408b0c32a,
+  _cardPrototype: {fileID: 7181796375524942514, guid: cdc10850070eedf449361cdcd54316b7,
     type: 3}
-  _dealingStack: {fileID: 0}
-  _playerColumns:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _dealingAnimationTime: 0.05

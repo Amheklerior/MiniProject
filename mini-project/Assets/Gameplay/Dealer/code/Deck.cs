@@ -28,10 +28,9 @@ namespace Amheklerior.Solitaire {
 
         public void Shuffle() =>
             _cards = _cards.OrderBy(card => {
-                card.IsFacingUp = false;
+                card.Hide();
                 return UnityEngine.Random.value;
             }).ToArray();
-
 
 
         #region Internals
@@ -42,13 +41,10 @@ namespace Amheklerior.Solitaire {
         private Card[] _cards = new Card[CARDS_COUNT];
 
         private Card CreateCard(Seed seed, Number number) {
-            var cardObj = UnityEngine.Object.Instantiate(_cardPrototype);
-            cardObj.name = $"{number} of {seed}";
-            cardObj.SetActive(false);
-
-            var card = cardObj.GetComponent<Card>();
-            card.SetCardData(new CardData(seed, number));
-
+            var card = UnityEngine.Object.Instantiate(_cardPrototype).GetComponent<Card>();
+            card.name = $"{number} of {seed}";
+            card.Deactivate();
+            card.Init(seed, number);
             _onCardCreated?.Invoke(card);
             return card;
         }
