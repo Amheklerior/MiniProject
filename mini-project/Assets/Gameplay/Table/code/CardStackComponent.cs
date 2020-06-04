@@ -9,7 +9,7 @@ namespace Amheklerior.Solitaire {
 
         private static readonly Vector3 DEFAULT_DIR = new Vector3(0f, 0f, -0.1f);
 
-        protected Vector3 _stackPosition;
+        protected Vector2 _stackPosition;
         protected Vector3 _stackDirection;
         protected CardStack _stack;
 

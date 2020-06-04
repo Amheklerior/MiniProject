@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ namespace Amheklerior.Solitaire {
 
         #region Inspector interface 
 
+        [Header("Settings:")]
         [SerializeField] private CardGenerator _cardGenerator;
         
         /*
@@ -31,6 +31,7 @@ namespace Amheklerior.Solitaire {
             PlaceDeck();
             //DealCards();
         }
+
 
         #region Internals
 

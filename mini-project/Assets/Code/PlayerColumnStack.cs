@@ -54,7 +54,7 @@ namespace Amheklerior.Solitaire {
         }
 
         private void UpdateColliderPosition(Card card) =>
-            _collider.position = _stackPosition + _stackDirection * _stack.CardCount + _stackDirection * 0.5f;
+            _collider.position = Vector3.zero; //_stackPosition + _stackDirection * _stack.CardCount + _stackDirection * 0.5f;
 
     }
 }

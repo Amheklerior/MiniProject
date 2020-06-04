@@ -5,9 +5,11 @@ namespace Amheklerior.Solitaire {
 
     public class Deck : CardStackComponent {
 
+        private Vector3 NextCardPosition => (Vector3) _stackPosition + _stackDirection * _stack.CardCount;
+
         protected override void OnPut(Card card) {
             base.OnPut(card);
-            card.MoveTo(_stackPosition + _stackDirection * _stack.CardCount);
+            card.MoveTo(NextCardPosition);
             card.Flip();
         }
 
