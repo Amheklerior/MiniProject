@@ -16,6 +16,7 @@ namespace Amheklerior.Solitaire {
         public CardPile Pile { get; private set; }
         public CardStackComponent Stack { get; set; }
 
+        public bool IsAPile() => Pile.HasNext;
         public bool SameColor(Card other) => Color == other.Color;
         public bool DifferentColor(Card other) => !SameColor(other);
         public bool IsNextLowNumber(Card other) => (int) Number == (int) other.Number - 1;

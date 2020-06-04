@@ -14,6 +14,8 @@ namespace Amheklerior.Solitaire {
 
         public Card Card { get; private set; }
 
+        public bool HasNext => Next != null;
+
         public void MoveTo(Vector3 position) {
             _transform.position = position;
             if (Next) Next.MoveTo(position + _pileOffset);
