@@ -50,7 +50,7 @@ namespace Amheklerior.Solitaire {
         }
 
         private ICardDropArea GetHoveredDropArea() {
-            var rayOrigin = _cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 15f;
+            var rayOrigin = _cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10f;
             Debug.DrawLine(rayOrigin, rayOrigin + Vector3.forward * 100f, UnityEngine.Color.yellow);
             if (Physics.Raycast(rayOrigin, Vector3.forward, out RaycastHit hit, 100f)) {
                 return hit.transform.GetComponentInParent<ICardDropArea>();
