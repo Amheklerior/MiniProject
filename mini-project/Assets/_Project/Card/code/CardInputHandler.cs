@@ -1,7 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using Amheklerior.Solitaire.Command;
 
 namespace Amheklerior.Solitaire {
+
+    public interface ICardDragArea { }
+
+    public interface ICardDropArea {
+        bool ValidDropPositionFor(Card card);
+        void Drop(Card card);
+        void UndoDrop(Card card);
+    }
 
     public class CardInputHandler : MonoBehaviour {
 
@@ -18,8 +26,10 @@ namespace Amheklerior.Solitaire {
         private void OnMouseUp() {
             if (!_isBeingDragged) return;
             if (IsOnValidDropPosition) DropCard();
-            else RollBack();
-            ClearData();
+            else {
+                RollBack();
+                ClearData();
+            }
         }
 
 
@@ -32,10 +42,10 @@ namespace Amheklerior.Solitaire {
         private bool _isBeingDragged;
         private Vector3 _initialPosition;
         private Vector2 _delta;
-        private CardStackComponent _initialStack;
-        private ICardDropArea _dropArea;
+        private ICardDropArea _destination;
+        private ICardDragArea _origin;
 
-        private bool IsOnValidDropPosition => _dropArea != null && _dropArea.ValidDropPositionFor(_card);
+        private bool IsOnValidDropPosition => _destination != null && _destination.ValidDropPositionFor(_card);
 
         private Vector3 PointOnScreen {
             get {
@@ -65,33 +75,56 @@ namespace Amheklerior.Solitaire {
         private void StartDraggingCard() {
             _isBeingDragged = true;
             _initialPosition = _tranform.position;
-            _delta = ComputeDelta(); 
-            _initialStack = _card.Stack;
+            _delta = ComputeDelta();
+            _origin = (ICardDragArea) _card.Stack ?? _card.Pile.Previous;
         }
 
         private void DragCard() {
             _card.DragTo(PointOnScreen);
-            _dropArea = GetHoveredDropArea();
+            _destination = GetHoveredDropArea();
         }
 
-        private void DropCard() {
-            _dropArea.Drop(_card);
+        private void DropCard() => GlobalCommandExecutor.Execute(
+            () => MoveCardOnDrop(_card, _origin, _destination), 
+            () => UndoMoveCardOnDrop(_card, _origin, _destination));
 
-            if (_initialStack is TableuPile pile)
+        private void RollBack() => _card.DragTo(_initialPosition);
+
+        private void ClearData() {
+            _isBeingDragged = false;
+            _origin = null;
+            _destination = null;
+        }
+
+        #region Undoable Command
+
+        private void MoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
+            destination.Drop(movedCard);
+
+            if (origin is TableuPile pile) {
                 pile.CardPileRoot = null;
 
-            else _initialStack?.Take();
+            } else if (origin is CardStackComponent stack) {
+                stack.Take();
+
+            }
+        }
+
+        private void UndoMoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
+            destination.UndoDrop(movedCard);
+
+            if (origin is TalonStack talon) {
+                talon.Put(movedCard);
+
+            //} else if (origin is TableuPile pile) {
+              //  pile.CardPileRoot = movedCard.Pile;
+                
+            } else ((ICardDropArea) origin).Drop(movedCard);
             
         }
 
-        private void RollBack() => _card.DragTo(_initialPosition);
+        #endregion
         
-        private void ClearData() {
-            _isBeingDragged = false;
-            _initialStack = null;
-            _dropArea = null;
-        }
-
         #endregion
 
     }

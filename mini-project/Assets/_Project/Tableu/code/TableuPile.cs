@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Amheklerior.Solitaire {
 
-    public class TableuPile : CardStackComponent, ICardDropArea {
+    public class TableuPile : CardStackComponent, ICardDragArea, ICardDropArea {
 
         [Header("Settings:")]
         [SerializeField] protected float _verticalOffset = -0.2f;
@@ -25,11 +24,23 @@ namespace Amheklerior.Solitaire {
             CardPileRoot = card.Pile;
             Link(card);
         }
-
+        
+        public void UndoDrop(Card card) {
+            Unlink(card);
+            CardPileRoot = null;
+        }
+        
         public void FlipTopCard() {
             var topCard = _stack.Take();
             topCard.Flip();
             CardPileRoot = topCard.Pile;
+        }
+
+        public void UndoFlipTopCard() {
+            var flippedCard = CardPileRoot.Card;
+            flippedCard.Flip();
+            _stack.Put(flippedCard);
+            CardPileRoot = null;
         }
 
         protected override Vector3 Direction => new Vector3(0f, _verticalOffset, _depthOffset);

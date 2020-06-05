@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Amheklerior.Solitaire.Command {
 
@@ -16,6 +17,10 @@ namespace Amheklerior.Solitaire.Command {
         }
 
         public static void Execute(ICommand command) => Executor.Execute(command);
+
+        public static void Execute(Action perform) => Executor.Execute(new Command(perform));
+
+        public static void Execute(Action perform, Action undo) => Executor.Execute(new Command(perform, undo));
 
         public static void Undo() => Executor.Undo();
 

@@ -6,12 +6,7 @@ namespace Amheklerior.Solitaire {
     public class Deck : CardStackComponent {
 
         protected override Vector3 NextStackPosition => _stackPosition;
-
-        protected override void OnPut(Card card) {
-            base.OnPut(card);
-            card.Flip();
-        }
-
+        
         protected override void OnTake(Card card) {
             base.OnTake(card);
             card.transform.Translate(Vector3.back * 3f);
@@ -26,6 +21,6 @@ namespace Amheklerior.Solitaire {
             }
             _stack.TopCard.Activate();
         }
-
+        
     }
 }

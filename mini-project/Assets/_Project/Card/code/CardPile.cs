@@ -2,12 +2,7 @@
 
 namespace Amheklerior.Solitaire {
 
-    public interface ICardDropArea {
-        bool ValidDropPositionFor(Card card);
-        void Drop(Card card);
-    }
-    
-    public class CardPile : MonoBehaviour, ICardDropArea {
+    public class CardPile : MonoBehaviour, ICardDragArea, ICardDropArea {
 
         [Header("Settings:")]
         [SerializeField] private Vector3 _pileOffset = new Vector3(0f, -0.2f, -0.1f);
@@ -17,7 +12,8 @@ namespace Amheklerior.Solitaire {
         public bool HasNext => Next != null;
 
         public void MoveTo(Vector3 position) {
-            _transform.position = position;
+            //_transform.position = position;
+            Card.MoveTo(position);
             if (Next) Next.MoveTo(position + _pileOffset);
         }
 
@@ -31,13 +27,18 @@ namespace Amheklerior.Solitaire {
         public void Drop(Card card) {
             card.DragTo(_transform.position + _pileOffset);
             AttachNext(card.Pile);
+            card.Stack = null;
         }
+
+        public void UndoDrop(Card card) => DetachNext();
+
 
         #region Internals
 
         private Transform _transform;
-        private CardPile Next { get; set; }
-        private CardPile Previous { get; set; }
+
+        public CardPile Next { get; private set; }
+        public CardPile Previous { get; private set; }
 
         private void Awake() {
             Card = GetComponent<Card>();
@@ -45,19 +46,18 @@ namespace Amheklerior.Solitaire {
         }
 
         private void AttachNext(CardPile pile) {
+            pile.Previous?.DetachNext();
+            pile.Previous = this;
             Next = pile;
-            Next.AttachPrevious(this);
-        }
-
-        private void AttachPrevious(CardPile pile) {
-            Previous?.DetachNext();
-            Previous = pile;
         }
         
-        private void DetachNext() => Next = null;
+        private void DetachNext() {
+            if (Next) Next.Previous = null;
+            Next = null;
+        }
 
         public void DetachPrevious() {
-            Previous?.DetachNext();
+            if (Previous) Previous.Next = null;
             Previous = null;
         }
 

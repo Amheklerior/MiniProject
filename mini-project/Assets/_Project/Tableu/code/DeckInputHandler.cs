@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Amheklerior.Solitaire.Command;
 
 namespace Amheklerior.Solitaire {
 
@@ -11,8 +12,8 @@ namespace Amheklerior.Solitaire {
         [SerializeField] private float _resetDeckAnimationTime = 0.05f;
 
         private void OnMouseUpAsButton() {
-            if (_deck.HasCards) PlaceACardToTalon();
-            else ResetDeck();
+            if (_deck.HasCards) GlobalCommandExecutor.Execute(() => PlaceACardToTalon(), () => PlaceACardBackToDeck());
+            else GlobalCommandExecutor.Execute(() => ResetDeck(), () => UndoResetDeck());
         }
 
         #region Internals
@@ -36,19 +37,46 @@ namespace Amheklerior.Solitaire {
         }
 
         [ContextMenu("Place a Card to the Talon Stack")]
-        private void PlaceACardToTalon() => _talon.Put(_deck.Take());
+        private void PlaceACardToTalon() {
+            var card = _deck.Take();
+            card.Flip();
+            _talon.Put(card);
+        }
+
+        [ContextMenu("Undo - Place a Card to the Talon Stack")]
+        private void PlaceACardBackToDeck() {
+            var card = _talon.Take();
+            card.transform.Translate(Vector3.back * 3f);
+            card.Flip();
+            _deck.Put(card);
+        }
 
         [ContextMenu("Reset Deck")]
         private void ResetDeck() => StartCoroutine(ResetDeck_Coroutine());
 
+        [ContextMenu("Undo - Reset Deck")]
+        private void UndoResetDeck() => StartCoroutine(UndoResetDeck_Coroutine());
+
+        #region Coroutines 
+
         private IEnumerator ResetDeck_Coroutine() {
             var waitAnimationTime = new WaitForSeconds(_resetDeckAnimationTime);
             while (_talon.HasCards) {
-                _deck.Put(_talon.Take());
+                PlaceACardBackToDeck();
                 yield return waitAnimationTime;
             }
         }
-        
+
+        private IEnumerator UndoResetDeck_Coroutine() {
+            var waitAnimationTime = new WaitForSeconds(_resetDeckAnimationTime);
+            while (_deck.HasCards) {
+                PlaceACardToTalon();
+                yield return waitAnimationTime;
+            }
+        }
+
+        #endregion
+
         #endregion
 
     }
