@@ -9,7 +9,6 @@ namespace Amheklerior.Solitaire {
         public void Drop(Card card) {
             Put(card);
             card.Pile.DetachPrevious();
-            card.Stack = this;
         }
 
         public bool ValidDropPositionFor(Card card) => 

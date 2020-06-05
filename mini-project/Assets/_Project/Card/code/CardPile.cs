@@ -30,7 +30,6 @@ namespace Amheklerior.Solitaire {
 
         public void Drop(Card card) {
             card.DragTo(_transform.position + _pileOffset);
-            card.Stack = null;
             AttachNext(card.Pile);
         }
 
