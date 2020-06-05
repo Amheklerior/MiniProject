@@ -22,27 +22,47 @@ namespace Amheklerior.Solitaire {
         }
 
         public bool ValidDropPositionFor(Card card) =>
-            !Next &&
+            Card.Stack?.GetType() != typeof(TalonStack) && 
+            !Next && 
             Card.IsFacingUp &&
             Card.DifferentColor(card) &&
             Card.IsNextHighNumber(card);
 
         public void Drop(Card card) {
             card.DragTo(_transform.position + _pileOffset);
-            Next = card.Pile;
+            card.Stack = null;
+            AttachNext(card.Pile);
         }
 
         #region Internals
 
         private Transform _transform;
         private CardPile Next { get; set; }
+        private CardPile Previous { get; set; }
 
         private void Awake() {
             Card = GetComponent<Card>();
             _transform = transform;
         }
 
-        #endregion
+        private void AttachNext(CardPile pile) {
+            Next = pile;
+            Next.AttachPrevious(this);
+        }
+
+        private void AttachPrevious(CardPile pile) {
+            Previous?.DetachNext();
+            Previous = pile;
+        }
         
+        private void DetachNext() => Next = null;
+
+        public void DetachPrevious() {
+            Previous?.DetachNext();
+            Previous = null;
+        }
+
+        #endregion
+
     }
 }

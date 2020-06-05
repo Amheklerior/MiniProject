@@ -17,12 +17,13 @@ namespace Amheklerior.Solitaire {
             }
         }
 
-        public bool ValidDropPositionFor(Card card) => CardPileRoot == null && card.Number is Number.K;
+        public bool ValidDropPositionFor(Card card) => !CardPileRoot && card.Number is Number.K;
 
         public void Drop(Card card) {
             card.DragTo((Vector3) _stackPosition + _stackDirection * _stack.CardCount);
+            card.Pile.DetachPrevious();
             CardPileRoot = card.Pile;
-            card.Stack = this;
+            Link(card);
         }
 
         public void FlipTopCard() {

@@ -74,11 +74,9 @@ namespace Amheklerior.Solitaire {
 
             if (_initialStack is TableuPile pile)
                 pile.CardPileRoot = null;
-            else _initialStack?.Take();
 
-            if (_dropArea is CardStackComponent stack)
-                _card.Stack = stack;
-            else _card.Stack = null;
+            else _initialStack?.Take();
+            
         }
 
         private void RollBack() => _card.DragTo(_initialPosition);
