@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Amheklerior.Solitaire {
 
@@ -30,6 +31,7 @@ namespace Amheklerior.Solitaire {
         
         private bool _isBeingDragged;
         private Vector3 _initialPosition;
+        private Vector2 _delta;
         private CardStackComponent _initialStack;
         private ICardDropArea _dropArea;
 
@@ -37,7 +39,7 @@ namespace Amheklerior.Solitaire {
 
         private Vector3 PointOnScreen {
             get {
-                var pointer = _cam.ScreenToWorldPoint(Input.mousePosition);
+                var pointer = _cam.ScreenToWorldPoint(Input.mousePosition) + (Vector3)_delta;
                 pointer.z = -10f;
                 return pointer;
             }
@@ -48,6 +50,8 @@ namespace Amheklerior.Solitaire {
             _card = GetComponent<Card>();
             _cam = Camera.main;
         }
+
+        private Vector2 ComputeDelta() => _initialPosition - _cam.ScreenToWorldPoint(Input.mousePosition);
 
         private ICardDropArea GetHoveredDropArea() {
             var rayOrigin = _cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10f;
@@ -61,6 +65,7 @@ namespace Amheklerior.Solitaire {
         private void StartDraggingCard() {
             _isBeingDragged = true;
             _initialPosition = _tranform.position;
+            _delta = ComputeDelta(); 
             _initialStack = _card.Stack;
         }
 
