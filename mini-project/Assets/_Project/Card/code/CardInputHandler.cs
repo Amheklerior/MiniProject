@@ -3,6 +3,8 @@ using Amheklerior.Solitaire.Command;
 
 namespace Amheklerior.Solitaire {
 
+    #region Interfaces
+
     public interface ICardDragArea { }
 
     public interface ICardDropArea {
@@ -11,10 +13,12 @@ namespace Amheklerior.Solitaire {
         void UndoDrop(Card card);
     }
 
+    #endregion
+    
     public class CardInputHandler : MonoBehaviour {
 
         private void OnMouseDown() {
-            if (!_card.IsSelectable) return;
+            if (!_card.IsSelectable || Game.IsBusy) return;
             StartDraggingCard();
         }
 
@@ -44,9 +48,9 @@ namespace Amheklerior.Solitaire {
         private Vector2 _delta;
         private ICardDropArea _destination;
         private ICardDragArea _origin;
-
+        
         private bool IsOnValidDropPosition => _destination != null && _destination.ValidDropPositionFor(_card);
-
+        
         private Vector3 PointOnScreen {
             get {
                 var pointer = _cam.ScreenToWorldPoint(Input.mousePosition) + (Vector3)_delta;
@@ -99,28 +103,21 @@ namespace Amheklerior.Solitaire {
         #region Undoable Command
 
         private void MoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
+            Debug.Log($"Move card {movedCard} from {origin} to {destination}.");
             destination.Drop(movedCard);
-
-            if (origin is TableuPile pile) {
+            if (origin is TableuPile pile)
                 pile.CardPileRoot = null;
-
-            } else if (origin is CardStackComponent stack) {
+            else if (origin is CardStackComponent stack)
                 stack.Take();
-
-            }
         }
 
         private void UndoMoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
+            Debug.Log($"Move card {movedCard} from {destination} back to {origin}.");
             destination.UndoDrop(movedCard);
-
-            if (origin is TalonStack talon) {
+            if (origin is TalonStack talon)
                 talon.Put(movedCard);
-
-            //} else if (origin is TableuPile pile) {
-              //  pile.CardPileRoot = movedCard.Pile;
-                
-            } else ((ICardDropArea) origin).Drop(movedCard);
-            
+            else
+                ((ICardDropArea) origin)?.Drop(movedCard); // THE ERROR #1 THROWS HERE FOR NULL ORIGIN.. ADDED ?. OPERATOR FOR TEST
         }
 
         #endregion

@@ -5,17 +5,6 @@ namespace Amheklerior.Solitaire.Command {
 
     public static class GlobalCommandExecutor {
         
-        private static CommandExecutorComponent _cmdExecutor;
-        
-        public static CommandExecutorComponent Executor {
-            get {
-                if (_cmdExecutor == null) {
-                    _cmdExecutor = new GameObject("Command Executor").AddComponent<CommandExecutorComponent>();
-                }
-                return _cmdExecutor;
-            }
-        }
-
         public static void Execute(ICommand command) => Executor.Execute(command);
 
         public static void Execute(Action perform) => Executor.Execute(new Command(perform));
@@ -23,6 +12,15 @@ namespace Amheklerior.Solitaire.Command {
         public static void Execute(Action perform, Action undo) => Executor.Execute(new Command(perform, undo));
 
         public static void Undo() => Executor.Undo();
+        
+        #region Internals 
+        
+        private static CommandExecutorComponent _cmdExecutor;
+
+        private static CommandExecutorComponent Executor => _cmdExecutor ??
+            (_cmdExecutor = new GameObject("Command Executor").AddComponent<CommandExecutorComponent>());
+        
+        #endregion
 
     }
 }

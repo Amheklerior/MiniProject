@@ -70,6 +70,8 @@ namespace Amheklerior.Solitaire {
             foreach (var card in cards) card.Stack = null;
         }
 
+        public override string ToString() => name;
+
         #endregion
 
     }

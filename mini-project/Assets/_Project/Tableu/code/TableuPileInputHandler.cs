@@ -12,7 +12,7 @@ namespace Amheklerior.Solitaire {
         }
 
         private void OnMouseUpAsButton() {
-            if (!Interactible) return;
+            if (!Interactible || Game.IsBusy) return;
             GlobalCommandExecutor.Execute(() => _pile.FlipTopCard(), () => _pile.UndoFlipTopCard());
         }
 

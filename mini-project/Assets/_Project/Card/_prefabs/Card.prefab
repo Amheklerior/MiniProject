@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementAnimationTime: 0.2
-  _rotationAnimationTime: 0.2
+  _rotationAnimationTime: 0.3
 --- !u!114 &7181796375524942513
 MonoBehaviour:
   m_ObjectHideFlags: 0

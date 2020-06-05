@@ -12,6 +12,7 @@ namespace Amheklerior.Solitaire {
         [SerializeField] private float _resetDeckAnimationTime = 0.05f;
 
         private void OnMouseUpAsButton() {
+            if (Game.IsBusy) return;
             if (_deck.HasCards) GlobalCommandExecutor.Execute(() => PlaceACardToTalon(), () => PlaceACardBackToDeck());
             else GlobalCommandExecutor.Execute(() => ResetDeck(), () => UndoResetDeck());
         }
@@ -38,6 +39,7 @@ namespace Amheklerior.Solitaire {
 
         [ContextMenu("Place a Card to the Talon Stack")]
         private void PlaceACardToTalon() {
+            if (!_deck.HasCards) return; // ADDED GARD CLAUSE FOR CONSISTENCY WITH THE ADDITION BELOW
             var card = _deck.Take();
             card.Flip();
             _talon.Put(card);
@@ -45,7 +47,8 @@ namespace Amheklerior.Solitaire {
 
         [ContextMenu("Undo - Place a Card to the Talon Stack")]
         private void PlaceACardBackToDeck() {
-            var card = _talon.Take();
+            if (!_talon.HasCards) return;
+            var card = _talon.Take();  // THE ERROR #1 THROWS HERE FOR EMPTY STACK.. ADDED ABOVE GARD CLAUSE FOR TEST
             card.transform.Translate(Vector3.back * 3f);
             card.Flip();
             _deck.Put(card);

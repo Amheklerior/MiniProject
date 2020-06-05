@@ -11,7 +11,10 @@ namespace Amheklerior.Solitaire {
             card.Pile.DetachPrevious();
         }
 
-        public void UndoDrop(Card card) => Take();
+        public void UndoDrop(Card card) {
+            if (!HasCards) return;
+            Take(); // THE ERROR #2 THROWS HERE FOR EMPTY STACK.. ADDED ABOVE GARD CLAUSE FOR TEST
+        }
 
         public bool ValidDropPositionFor(Card card) => 
             card.Seed == _seed && 

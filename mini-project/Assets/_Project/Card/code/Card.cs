@@ -63,6 +63,8 @@ namespace Amheklerior.Solitaire {
             Pile = GetComponent<CardPile>();
         }
 
+        public override string ToString() => name;
+
         #endregion
 
     }

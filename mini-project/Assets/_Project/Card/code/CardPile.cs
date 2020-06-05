@@ -12,7 +12,6 @@ namespace Amheklerior.Solitaire {
         public bool HasNext => Next != null;
 
         public void MoveTo(Vector3 position) {
-            //_transform.position = position;
             Card.MoveTo(position);
             if (Next) Next.MoveTo(position + _pileOffset);
         }
@@ -60,6 +59,8 @@ namespace Amheklerior.Solitaire {
             if (Previous) Previous.Next = null;
             Previous = null;
         }
+
+        public override string ToString() => Card.name;
 
         #endregion
 
