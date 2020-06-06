@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using Amheklerior.Solitaire.Command;
+using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
 
     #region Interfaces
 
-    public interface ICardDragArea { }
+    public interface IDragDropOrigin { }
 
-    public interface ICardDropArea {
+    public interface IDragDropDestination {
         bool ValidDropPositionFor(Card card);
         void Drop(Card card);
         void UndoDrop(Card card);
@@ -46,8 +46,8 @@ namespace Amheklerior.Solitaire {
         private bool _isBeingDragged;
         private Vector3 _initialPosition;
         private Vector2 _delta;
-        private ICardDropArea _destination;
-        private ICardDragArea _origin;
+        private IDragDropDestination _destination;
+        private IDragDropOrigin _origin;
         
         private bool IsOnValidDropPosition => _destination != null && _destination.ValidDropPositionFor(_card);
         
@@ -67,11 +67,11 @@ namespace Amheklerior.Solitaire {
 
         private Vector2 ComputeDelta() => _initialPosition - _cam.ScreenToWorldPoint(Input.mousePosition);
 
-        private ICardDropArea GetHoveredDropArea() {
+        private IDragDropDestination GetHoveredDropArea() {
             var rayOrigin = _cam.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10f;
             Debug.DrawLine(rayOrigin, rayOrigin + Vector3.forward * 100f, UnityEngine.Color.yellow);
             if (Physics.Raycast(rayOrigin, Vector3.forward, out RaycastHit hit, 100f)) {
-                return hit.transform.GetComponentInParent<ICardDropArea>();
+                return hit.transform.GetComponentInParent<IDragDropDestination>();
             }
             return null;
         }
@@ -80,7 +80,7 @@ namespace Amheklerior.Solitaire {
             _isBeingDragged = true;
             _initialPosition = _tranform.position;
             _delta = ComputeDelta();
-            _origin = (ICardDragArea) _card.Stack ?? _card.Pile.Previous;
+            _origin = (IDragDropOrigin) _card.Stack ?? _card.Pile.Previous;
         }
 
         private void DragCard() {
@@ -88,9 +88,7 @@ namespace Amheklerior.Solitaire {
             _destination = GetHoveredDropArea();
         }
 
-        private void DropCard() => GlobalCommandExecutor.Execute(
-            () => MoveCardOnDrop(_card, _origin, _destination), 
-            () => UndoMoveCardOnDrop(_card, _origin, _destination));
+        private void DropCard() => GlobalCommandExecutor.Execute(new SolitaireMove(_card, _origin, _destination));
 
         private void RollBack() => _card.DragTo(_initialPosition);
 
@@ -100,29 +98,50 @@ namespace Amheklerior.Solitaire {
             _destination = null;
         }
 
-        #region Undoable Command
-
-        private void MoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
-            Debug.Log($"Move card {movedCard} from {origin} to {destination}.");
-            destination.Drop(movedCard);
-            if (origin is TableuPile pile)
-                pile.CardPileRoot = null;
-            else if (origin is CardStackComponent stack)
-                stack.Take();
-        }
-
-        private void UndoMoveCardOnDrop(Card movedCard, ICardDragArea origin, ICardDropArea destination) {
-            Debug.Log($"Move card {movedCard} from {destination} back to {origin}.");
-            destination.UndoDrop(movedCard);
-            if (origin is TalonStack talon)
-                talon.Put(movedCard);
-            else
-                ((ICardDropArea) origin)?.Drop(movedCard); // THE ERROR #1 THROWS HERE FOR NULL ORIGIN.. ADDED ?. OPERATOR FOR TEST
-        }
-
         #endregion
-        
+
+        #region SolitaireMove inner class
+
+        private class SolitaireMove : ICommand {
+
+            public bool Reversible => true;
+
+            public void Perform() {
+                Debug.Log($"Move card {_movedCard} from {_origin} to {_destination}.");
+                _destination.Drop(_movedCard);
+                if (_origin is TableuPile pile)
+                    pile.CardPileRoot = null;
+                else if (_origin is CardStackComponent stack)
+                    stack.Take();
+            }
+
+            public void Undo() {
+                Debug.Log($"Move card {_movedCard} from {_destination} back to {_origin}.");
+                _destination.UndoDrop(_movedCard);
+                if (_origin is TalonStack talon)
+                    talon.Put(_movedCard);
+                else
+                    ((IDragDropDestination) _origin).Drop(_movedCard);
+            }
+
+            #region Internals
+
+            private Card _movedCard;
+            private IDragDropOrigin _origin;
+            private IDragDropDestination _destination;
+
+            public SolitaireMove(Card cardToMove, IDragDropOrigin origin, IDragDropDestination destination) {
+                _movedCard = cardToMove;
+                _origin = origin;
+                _destination = destination;
+            }
+
+            #endregion
+
+        }
+
         #endregion
 
     }
+
 }

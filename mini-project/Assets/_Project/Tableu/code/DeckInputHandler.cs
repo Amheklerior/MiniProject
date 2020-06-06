@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Amheklerior.Solitaire.Command;
+using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
 
@@ -39,7 +39,6 @@ namespace Amheklerior.Solitaire {
 
         [ContextMenu("Place a Card to the Talon Stack")]
         private void PlaceACardToTalon() {
-            if (!_deck.HasCards) return; // ADDED GARD CLAUSE FOR CONSISTENCY WITH THE ADDITION BELOW
             var card = _deck.Take();
             card.Flip();
             _talon.Put(card);
@@ -47,8 +46,7 @@ namespace Amheklerior.Solitaire {
 
         [ContextMenu("Undo - Place a Card to the Talon Stack")]
         private void PlaceACardBackToDeck() {
-            if (!_talon.HasCards) return;
-            var card = _talon.Take();  // THE ERROR #1 THROWS HERE FOR EMPTY STACK.. ADDED ABOVE GARD CLAUSE FOR TEST
+            var card = _talon.Take();
             card.transform.Translate(Vector3.back * 3f);
             card.Flip();
             _deck.Put(card);

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace Amheklerior.Solitaire {
 
+    #region Interface definition
+
     public interface ICardStack {
         bool HasCards { get; }
         Card TopCard { get; }
@@ -13,7 +15,9 @@ namespace Amheklerior.Solitaire {
         ICollection<Card> TakeAll();
         void Clear();
     }
-    
+
+    #endregion
+
 
     public class CardStack : ICardStack {
 

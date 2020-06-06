@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Amheklerior.Solitaire.Command {
+namespace Amheklerior.Solitaire.Util {
 
     internal class CommandStack : Stack<ICommand> { }
 

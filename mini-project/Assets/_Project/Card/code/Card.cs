@@ -9,6 +9,8 @@ namespace Amheklerior.Solitaire {
         [SerializeField] private float _movementAnimationTime = 0.2f;
         [SerializeField] private float _rotationAnimationTime = 0.2f;
 
+        #region Info
+
         public Seed Seed => _cardData.Seed;
         public Number Number => _cardData.Number;
         public Color Color => _cardData.Color;
@@ -16,17 +18,16 @@ namespace Amheklerior.Solitaire {
         public CardPile Pile { get; private set; }
         public CardStackComponent Stack { get; set; }
 
+        public bool IsSelectable => _renderer.IsFacingUp;
+        public bool IsFacingUp => _renderer.IsFacingUp;
         public bool IsAPile() => Pile.HasNext;
-        public bool SameColor(Card other) => Color == other.Color;
-        public bool DifferentColor(Card other) => !SameColor(other);
-        public bool IsNextLowNumber(Card other) => (int) Number == (int) other.Number - 1;
-        public bool IsNextHighNumber(Card other) => (int) Number == (int) other.Number + 1;
+
+        #endregion
+
+        #region Actions 
 
         public void Activate() => gameObject.SetActive(true);
         public void Deactivate() => gameObject.SetActive(false);
-
-        public bool IsSelectable => _renderer.IsFacingUp;
-        public bool IsFacingUp => _renderer.IsFacingUp;
 
         public void Show() {
             if (!_renderer.IsFacingUp)
@@ -48,7 +49,17 @@ namespace Amheklerior.Solitaire {
             _renderer.Flip();
         }
 
-        
+        #endregion
+
+        #region Comparing methods
+
+        public bool SameColor(Card other) => Color == other.Color;
+        public bool DifferentColor(Card other) => !SameColor(other);
+        public bool IsNextLowNumber(Card other) => (int) Number == (int) other.Number - 1;
+        public bool IsNextHighNumber(Card other) => (int) Number == (int) other.Number + 1;
+
+        #endregion
+
         #region Internals
 
         private CardData _cardData;

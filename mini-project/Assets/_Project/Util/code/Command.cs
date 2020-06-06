@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Amheklerior.Solitaire.Command {
+namespace Amheklerior.Solitaire.Util {
 
     public class Command : ICommand {
         

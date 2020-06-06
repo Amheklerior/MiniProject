@@ -16,8 +16,7 @@ namespace Amheklerior.Solitaire {
 
         public void Flip() {
             Game.StartAction();
-            //_card.DORotate(Vector3.up * 360f, 0f).OnComplete(() => 
-                _card.DORotate(Vector3.up * 360f, _rotationAnimationTime, RotateMode.FastBeyond360).OnComplete(() => Game.EndAction());
+            _card.DORotate(Vector3.up * 360f, _rotationAnimationTime, RotateMode.FastBeyond360).OnComplete(() => Game.EndAction());
         }
 
         #region Internals

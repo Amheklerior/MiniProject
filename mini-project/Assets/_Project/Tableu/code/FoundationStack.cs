@@ -2,7 +2,7 @@
 
 namespace Amheklerior.Solitaire {
 
-    public class FoundationStack : CardStackComponent, ICardDragArea, ICardDropArea {
+    public class FoundationStack : CardStackComponent, IDragDropOrigin, IDragDropDestination {
 
         [SerializeField] private Seed _seed;
 
@@ -11,10 +11,7 @@ namespace Amheklerior.Solitaire {
             card.Pile.DetachPrevious();
         }
 
-        public void UndoDrop(Card card) {
-            if (!HasCards) return;
-            Take(); // THE ERROR #2 THROWS HERE FOR EMPTY STACK.. ADDED ABOVE GARD CLAUSE FOR TEST
-        }
+        public void UndoDrop(Card card) => Take();
 
         public bool ValidDropPositionFor(Card card) => 
             card.Seed == _seed && 

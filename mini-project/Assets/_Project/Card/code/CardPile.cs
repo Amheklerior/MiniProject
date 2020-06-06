@@ -2,7 +2,7 @@
 
 namespace Amheklerior.Solitaire {
 
-    public class CardPile : MonoBehaviour, ICardDragArea, ICardDropArea {
+    public class CardPile : MonoBehaviour, IDragDropOrigin, IDragDropDestination {
 
         [Header("Settings:")]
         [SerializeField] private Vector3 _pileOffset = new Vector3(0f, -0.2f, -0.1f);
@@ -51,12 +51,14 @@ namespace Amheklerior.Solitaire {
         }
         
         private void DetachNext() {
-            if (Next) Next.Previous = null;
+            if (!Next) return;
+            Next.Previous = null;
             Next = null;
         }
 
         public void DetachPrevious() {
-            if (Previous) Previous.Next = null;
+            if (!Previous) return;
+            Previous.Next = null;
             Previous = null;
         }
 

@@ -4,10 +4,10 @@ namespace Amheklerior.Solitaire {
 
     public static class Game {
 
-        public static bool IsBusy => StateManager.IsGameBusy;
+        public static bool IsBusy => StateManager && StateManager.IsGameBusy;
 
-        public static void StartAction() => StateManager.IncrementGameBusyIndicator();
-        public static void EndAction() => StateManager.DecrementGameBusyIndicator();
+        public static void StartAction() => StateManager?.IncrementGameBusyIndicator();
+        public static void EndAction() => StateManager?.DecrementGameBusyIndicator();
 
         #region Internals
 

@@ -1,6 +1,6 @@
 ﻿
 namespace Amheklerior.Solitaire {
 
-    public class TalonStack : CardStackComponent, ICardDragArea { }
+    public class TalonStack : CardStackComponent, IDragDropOrigin { }
 
 }

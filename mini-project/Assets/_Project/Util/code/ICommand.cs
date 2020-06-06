@@ -1,5 +1,5 @@
 ﻿
-namespace Amheklerior.Solitaire.Command {
+namespace Amheklerior.Solitaire.Util {
 
     public interface ICommand {
         bool Reversible { get; }

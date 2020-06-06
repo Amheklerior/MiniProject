@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Amheklerior.Solitaire.Command {
+namespace Amheklerior.Solitaire.Util {
 
     public class CommandExecutorComponent : MonoBehaviour {
 

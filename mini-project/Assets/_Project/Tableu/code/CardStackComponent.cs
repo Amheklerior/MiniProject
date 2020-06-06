@@ -22,15 +22,28 @@ namespace Amheklerior.Solitaire {
             Init();
         }
 
-        protected virtual void Init() { }
-
         protected virtual Vector3 Direction => DEFAULT_DIR;
 
         protected bool OnlyTopCardIsVisible => Direction == DEFAULT_DIR;
 
+        #region CardStack interface forwarding
+
+        public virtual bool HasCards => _stack.HasCards;
+        public virtual Card TopCard => _stack.TopCard;
+        public virtual int CardCount => _stack.CardCount;
+        public virtual void Put(Card card) => _stack.Put(card);
+        public virtual void PutAll(ICollection<Card> cards) => _stack.PutAll(cards);
+        public virtual Card Take() => _stack.Take();
+        public virtual ICollection<Card> TakeAll() => _stack.TakeAll();
+        public virtual void Clear() => _stack.Clear();
+
+        #endregion
+
         #region Callbacks
 
         protected virtual Vector3 NextStackPosition => (Vector3) _stackPosition + _stackDirection * _stack.CardCount;
+
+        protected virtual void Init() { }
 
         protected virtual void OnPut(Card card) {
             card.MoveTo(NextStackPosition);
@@ -45,19 +58,6 @@ namespace Amheklerior.Solitaire {
 
         #endregion
         
-        #region CardStack interface forwarding
-
-        public virtual bool HasCards => _stack.HasCards;
-        public virtual Card TopCard => _stack.TopCard;
-        public virtual int CardCount => _stack.CardCount;
-        public virtual void Put(Card card) => _stack.Put(card);
-        public virtual void PutAll(ICollection<Card> cards) => _stack.PutAll(cards);
-        public virtual Card Take() => _stack.Take();
-        public virtual ICollection<Card> TakeAll() => _stack.TakeAll();
-        public virtual void Clear() => _stack.Clear();
-
-        #endregion
-
         #region Internals
 
         protected void Link(Card card) => card.Stack = this;
