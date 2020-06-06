@@ -173,5 +173,4 @@ namespace Amheklerior.Solitaire {
         #endregion
 
     }
-
 }

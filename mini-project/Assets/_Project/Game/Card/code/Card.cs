@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Amheklerior.Solitaire.Util;
+using System;
 
 namespace Amheklerior.Solitaire {
 
@@ -41,15 +42,23 @@ namespace Amheklerior.Solitaire {
                 _renderer.Flip();
         }
 
-        public void MoveTo(Vector3 position) => _controller.Move(position);
+        public void MoveTo(Vector3 position) {
+            _controller.Move(position);
+            PlaySound();
+        }
 
         public void DragTo(Vector3 position) => Pile.MoveTo(position);
+        public void DropTo(Vector3 position) => Pile.MoveTo(position, true);
 
         [ContextMenu("Flip")]
         public void Flip() {
             _controller.Flip();
             _renderer.Flip();
+            PlaySound();
         }
+
+        [ContextMenu("Play Sound")]
+        public void PlaySound() => _cardSound.Play(_audioSource);
 
         #endregion
 
@@ -67,13 +76,14 @@ namespace Amheklerior.Solitaire {
         private CardData _cardData;
         private CardAnimator _controller;
         private CardRenderer _renderer;
+        private AudioSource _audioSource;
 
         public void Init(Seed seed, Number number) {
             _cardData = new CardData(seed, number);
-            _controller = new CardAnimator(
-                this, _cardSound, _movementAnimationTime, _rotationAnimationTime);
+            _controller = new CardAnimator(this, _movementAnimationTime, _rotationAnimationTime);
             _renderer = GetComponent<CardRenderer>();
             _renderer.Init(seed, number);
+            _audioSource = GetComponent<AudioSource>();
             Pile = GetComponent<CardPile>();
         }
 

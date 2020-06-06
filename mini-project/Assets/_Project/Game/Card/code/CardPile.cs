@@ -11,9 +11,10 @@ namespace Amheklerior.Solitaire {
 
         public bool HasNext => Next != null;
 
-        public void MoveTo(Vector3 position) {
-            Card.MoveTo(position);
-            if (Next) Next.MoveTo(position + _pileOffset);
+        public void MoveTo(Vector3 position, bool playAudio = false) {
+            _transform.position = position;
+            if (playAudio) Card.PlaySound();
+            if (Next) Next.MoveTo(position + _pileOffset, playAudio); 
         }
 
         public bool ValidDropPositionFor(Card card) =>
@@ -24,7 +25,7 @@ namespace Amheklerior.Solitaire {
             Card.IsNextHighNumber(card);
 
         public void Drop(Card card) {
-            card.DragTo(_transform.position + _pileOffset);
+            card.DropTo(_transform.position + _pileOffset);
             AttachNext(card.Pile);
             card.Stack = null;
         }

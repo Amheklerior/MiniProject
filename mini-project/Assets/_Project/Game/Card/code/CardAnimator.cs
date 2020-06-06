@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using DG.Tweening;
-using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
 
@@ -9,7 +8,6 @@ namespace Amheklerior.Solitaire {
 
         public void Move(Vector3 destination, Action onComplete = null) {
             Game.StartAction();
-            _cardSound.Play(_audioSource);
             _card.DOMove(destination, _movementAnimationTime).OnComplete(() => {
                 onComplete?.Invoke();
                 Game.EndAction();
@@ -18,7 +16,6 @@ namespace Amheklerior.Solitaire {
 
         public void Flip() {
             Game.StartAction();
-            _cardSound.Play(_audioSource);
             _card.DORotate(Vector3.up * 360f, _rotationAnimationTime, RotateMode.FastBeyond360).OnComplete(() => Game.EndAction());
         }
 
@@ -28,20 +25,11 @@ namespace Amheklerior.Solitaire {
         private readonly float _rotationAnimationTime;
 
         private Transform _card;
-        private AudioSource _audioSource;
-        private AudioEvent _cardSound;
 
-        public CardAnimator(
-            Card card,
-            AudioEvent cardSound,
-            float movementAnimationTime = 0.2f,
-            float rotationAnimationTime = 0.2f) 
-        {
+        public CardAnimator(Card card, float movementAnimationTime = 0.2f, float rotationAnimationTime = 0.2f) {
             _card = card.transform;
-            _audioSource = card.GetComponent<AudioSource>();
             _movementAnimationTime = movementAnimationTime;
             _rotationAnimationTime = rotationAnimationTime;
-            _cardSound = cardSound;
         }
 
         #endregion
