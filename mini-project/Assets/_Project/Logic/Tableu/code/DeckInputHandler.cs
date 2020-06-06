@@ -14,8 +14,11 @@ namespace Amheklerior.Solitaire {
         private void OnMouseUpAsButton() {
             if (Game.IsBusy) return;
             Game.IncrementMovesCounter();
-            if (_deck.HasCards) GlobalCommandExecutor.Execute(() => PlaceACardToTalon(), () => PlaceACardBackToDeck());
-            else GlobalCommandExecutor.Execute(() => ResetDeck(), () => UndoResetDeck());
+            if (_deck.HasCards) {
+                GlobalCommandExecutor.Execute(() => PlaceACardToTalon(), () => PlaceACardBackToDeck());
+            } else {
+                GlobalCommandExecutor.Execute(() => ResetDeck(), () => UndoResetDeck());
+            }
         }
 
         #region Internals
@@ -54,10 +57,16 @@ namespace Amheklerior.Solitaire {
         }
 
         [ContextMenu("Reset Deck")]
-        private void ResetDeck() => StartCoroutine(ResetDeck_Coroutine());
+        private void ResetDeck() {
+            StartCoroutine(ResetDeck_Coroutine());
+            Game.UpdateScoreBy(GameScore.RESET_DECK);
+        }
 
         [ContextMenu("Undo - Reset Deck")]
-        private void UndoResetDeck() => StartCoroutine(UndoResetDeck_Coroutine());
+        private void UndoResetDeck() {
+            StartCoroutine(UndoResetDeck_Coroutine());
+            Game.UpdateScoreBy(-(int) GameScore.RESET_DECK);
+        }
 
         #region Coroutines 
 

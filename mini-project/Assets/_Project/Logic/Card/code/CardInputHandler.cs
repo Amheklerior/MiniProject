@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Amheklerior.Solitaire.Util;
+using System;
 
 namespace Amheklerior.Solitaire {
 
@@ -116,6 +117,7 @@ namespace Amheklerior.Solitaire {
                     pile.CardPileRoot = null;
                 else if (_origin is CardStackComponent stack)
                     stack.Take();
+                UpdateScore(_origin, _destination);
             }
 
             public void Undo() {
@@ -125,6 +127,7 @@ namespace Amheklerior.Solitaire {
                     talon.Put(_movedCard);
                 else
                     ((IDragDropDestination) _origin).Drop(_movedCard);
+                UndoUpdateScore(_origin, _destination);
             }
 
             #region Internals
@@ -137,6 +140,30 @@ namespace Amheklerior.Solitaire {
                 _movedCard = cardToMove;
                 _origin = origin;
                 _destination = destination;
+            }
+
+            private static void UpdateScore(IDragDropOrigin origin, IDragDropDestination destination) =>
+                Game.UpdateScoreBy(GetScore(origin, destination));
+            
+            private static void UndoUpdateScore(IDragDropOrigin origin, IDragDropDestination destination) =>
+                Game.UpdateScoreBy(-GetScore(origin, destination));
+            
+            
+            private static int GetScore(IDragDropOrigin origin, IDragDropDestination destination) {
+                if (destination is FoundationStack)
+                    return (int) GameScore.MOVE_CARD_TO_FOUNDATION_STACK;
+
+                if (origin is TalonStack)
+                    return (int) GameScore.MOVE_CARD_FROM_TALON_TO_TABLEU_PILE;
+
+                if (origin is TableuPile)
+                    return (int) GameScore.MOVE_CARD_BETWEEN_TABLEU_PILES;
+
+                if (origin is FoundationStack)
+                    return (int) GameScore.MOVE_CARD_FROM_FOUNDATION_STACK_TO_TABLEU_PILE;
+
+                else
+                    return (int) GameScore.NO_SCORE;
             }
 
             #endregion

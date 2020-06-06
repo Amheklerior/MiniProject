@@ -5,6 +5,23 @@ namespace Amheklerior.Solitaire {
 
     public class GameStateManager : MonoBehaviour {
 
+        #region Score
+
+        [SerializeField] private IntVariable _score;
+
+        private Timer _timer;
+
+        private void Awake() => _timer = new Timer(10f, () => UpdateScoreBy((int) GameScore.TIME_ELAPSED));
+
+        private void Start() => _timer.Start();
+
+        private void LateUpdate() => _timer.Tick(Time.deltaTime);
+        
+        public void UpdateScoreBy(int value) => 
+            _score.CurrentValue = (int) Mathf.Clamp(_score.CurrentValue += value, 0, Mathf.Infinity);
+        
+        #endregion
+
         #region Moves Counter 
 
         [SerializeField] private IntVariable _moves;
@@ -30,7 +47,6 @@ namespace Amheklerior.Solitaire {
         public void DecrementGameBusyIndicator() => _busyIndicator--;
 
         #endregion
-
+        
     }
-
 }
