@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee226d2577e3f1047a78638d4abed71b, type: 3}
+  m_Name: Card sounds player
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: c856163eea806fd4fb9aadc4755eefbf, type: 3}
+  - {fileID: 8300000, guid: aa1d32c465d6c084885ce23944f6371d, type: 3}
+  - {fileID: 8300000, guid: c9d2082bc3419e34fb75b2a4127ddbb0, type: 3}
+  - {fileID: 8300000, guid: f9c10dc926d66b64586adcd1439d1416, type: 3}
+  - {fileID: 8300000, guid: 0509b682d7194514ca1ecc745f645d11, type: 3}
+  - {fileID: 8300000, guid: fc579a50908d1a5409b496fb117739d6, type: 3}
+  volumeRange: {x: 0.7, y: 1}
+  pitchRange: {x: 0.6, y: 1.5}

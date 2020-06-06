@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
 
@@ -8,6 +9,7 @@ namespace Amheklerior.Solitaire {
         [Header("Settings:")]
         [SerializeField] private float _movementAnimationTime = 0.2f;
         [SerializeField] private float _rotationAnimationTime = 0.2f;
+        [SerializeField] private AudioEvent _cardSound;
 
         #region Info
 
@@ -68,7 +70,8 @@ namespace Amheklerior.Solitaire {
 
         public void Init(Seed seed, Number number) {
             _cardData = new CardData(seed, number);
-            _controller = new CardAnimator(this, _movementAnimationTime, _rotationAnimationTime);
+            _controller = new CardAnimator(
+                this, _cardSound, _movementAnimationTime, _rotationAnimationTime);
             _renderer = GetComponent<CardRenderer>();
             _renderer.Init(seed, number);
             Pile = GetComponent<CardPile>();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a0a11b7ab7489c419663e7e496f95f3, type: 3}
-  m_Name: CardImageProvider
+  m_Name: Card image provider
   m_EditorClassIdentifier: 
   _back: {fileID: 21300000, guid: 2d5122940032e2346aa752e69c992654, type: 3}
   _heartsCards:
