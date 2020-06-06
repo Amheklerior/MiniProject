@@ -2,17 +2,20 @@
 using UnityEngine.UI;
 using Amheklerior.Solitaire.Util;
 
-[RequireComponent(typeof(Text))]
-public class ValueDisplayer : MonoBehaviour {
+namespace Amheklerior.Solitaire.UI {
 
-    [SerializeField] private IntVariable _valueToDisplay;
+    [RequireComponent(typeof(Text))]
+    public class ValueDisplayer : MonoBehaviour {
 
-    private Text _text;
+        [SerializeField] private IntVariable _valueToDisplay;
 
-    private void Awake() => _text = GetComponent<Text>();
+        private Text _text;
 
-    public void Update() => _text.text = _valueToDisplay.CurrentValue.ToString();
-    
-    // TODO -- Use events instead of an int variable
+        private void Awake() => _text = GetComponent<Text>();
 
+        public void Update() => _text.text = _valueToDisplay.CurrentValue.ToString();
+
+        // TODO -- Use events instead of an int variable
+
+    }
 }
