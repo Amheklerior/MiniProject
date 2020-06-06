@@ -11,8 +11,10 @@ namespace Amheklerior.Solitaire.Util {
 
         public static void Execute(Action perform, Action undo) => Executor.Execute(new Command(perform, undo));
 
+        public static bool CanUndo() => Executor.CanUndo;
+
         public static void Undo() => Executor.Undo();
-        
+
         #region Internals 
         
         private static CommandExecutorComponent _cmdExecutor;

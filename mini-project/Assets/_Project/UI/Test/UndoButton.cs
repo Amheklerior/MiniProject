@@ -9,8 +9,13 @@ namespace Amheklerior.Solitaire.UI {
 
     public class UndoButton : MonoBehaviour, IButton {
 
-        public void OnClick() => GlobalCommandExecutor.Undo();
-    
-    }
+        [SerializeField] private IntVariable _movesCounter;
 
+        public void OnClick() {
+            if (!GlobalCommandExecutor.CanUndo()) return;
+            GlobalCommandExecutor.Undo();
+            _movesCounter.CurrentValue++;
+        }
+
+    }
 }

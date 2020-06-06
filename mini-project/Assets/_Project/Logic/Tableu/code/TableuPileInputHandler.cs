@@ -19,7 +19,6 @@ namespace Amheklerior.Solitaire {
         public void UpdateColliderPosition(UpdateDirection direction) {
             if (direction == UpdateDirection.FORWARD)
                 _collider.localPosition += _step;
-
             else
                 _collider.localPosition -= _step;
         }

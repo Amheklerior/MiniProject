@@ -13,6 +13,7 @@ namespace Amheklerior.Solitaire {
 
         private void OnMouseUpAsButton() {
             if (Game.IsBusy) return;
+            Game.IncrementMovesCounter();
             if (_deck.HasCards) GlobalCommandExecutor.Execute(() => PlaceACardToTalon(), () => PlaceACardBackToDeck());
             else GlobalCommandExecutor.Execute(() => ResetDeck(), () => UndoResetDeck());
         }

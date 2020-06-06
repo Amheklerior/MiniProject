@@ -88,7 +88,10 @@ namespace Amheklerior.Solitaire {
             _destination = GetHoveredDropArea();
         }
 
-        private void DropCard() => GlobalCommandExecutor.Execute(new SolitaireMove(_card, _origin, _destination));
+        private void DropCard() {
+            GlobalCommandExecutor.Execute(new SolitaireMove(_card, _origin, _destination));
+            Game.IncrementMovesCounter();
+        }
 
         private void RollBack() => _card.DragTo(_initialPosition);
 
