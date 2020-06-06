@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Amheklerior.Solitaire.Util;
+using Amheklerior.Core.Time;
 
 namespace Amheklerior.Solitaire.UI {
 

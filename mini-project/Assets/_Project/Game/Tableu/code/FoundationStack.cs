@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Amheklerior.Solitaire {
-
+    
     public class FoundationStack : CardStackComponent, IDragDropOrigin, IDragDropDestination {
 
         [SerializeField] private Seed _seed;
@@ -17,7 +17,7 @@ namespace Amheklerior.Solitaire {
             card.Seed == _seed && 
             !card.IsAPile() && (
                 (!HasCards && card.Number == Number.A) || 
-                TopCard.IsNextLowNumber(card)
+                (HasCards && TopCard.IsNextLowNumber(card))
             );
         
     }

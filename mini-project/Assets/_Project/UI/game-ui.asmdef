@@ -1,7 +1,8 @@
 {
     "name": "game-ui",
     "references": [
-        "GUID:895e14c80d5387d4aa4b200ded00dc50"
+        "GUID:895e14c80d5387d4aa4b200ded00dc50",
+        "GUID:660abf58149f82c43b6e93a919aef8ec"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

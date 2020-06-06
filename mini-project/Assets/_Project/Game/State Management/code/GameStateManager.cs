@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Amheklerior.Core.Time;
 using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
@@ -11,7 +12,10 @@ namespace Amheklerior.Solitaire {
 
         private Timer _timer;
 
-        private void Awake() => _timer = new Timer(10f, () => UpdateScoreBy((int) GameScore.TIME_ELAPSED));
+        private void Awake() => _timer = new Timer(10f, () => {
+            UpdateScoreBy((int) GameScore.TIME_ELAPSED);
+            _timer.Restart();
+        });
 
         private void Start() => _timer.Start();
 
