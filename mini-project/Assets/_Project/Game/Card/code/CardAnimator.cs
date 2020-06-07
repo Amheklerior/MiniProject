@@ -6,18 +6,12 @@ namespace Amheklerior.Solitaire {
 
     public class CardAnimator {
 
-        public void Move(Vector3 destination, Action onComplete = null) {
-            Game.StartAction();
-            _card.DOMove(destination, _movementAnimationTime).OnComplete(() => {
-                onComplete?.Invoke();
-                Game.EndAction();
-            });
-        }
-
-        public void Flip() {
-            Game.StartAction();
-            _card.DORotate(Vector3.up * 360f, _rotationAnimationTime, RotateMode.FastBeyond360).OnComplete(() => Game.EndAction());
-        }
+        public void Move(Vector3 destination, Action onComplete = null) =>
+            _card.DOMove(destination, _movementAnimationTime).OnComplete(() => onComplete?.Invoke());
+        
+        public void Flip(Action onComplete = null) =>
+            _card.DORotate(Vector3.up * 360f, _rotationAnimationTime, RotateMode.FastBeyond360).OnComplete(() => onComplete?.Invoke());
+        
 
         #region Internals
 

@@ -46,7 +46,7 @@ namespace Amheklerior.Solitaire {
         protected virtual void Init() { }
 
         protected virtual void OnPut(Card card) {
-            card.MoveTo(NextStackPosition);
+            card.PlaceTo(NextStackPosition);
             Link(card);
         }
 

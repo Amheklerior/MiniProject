@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Amheklerior.Solitaire.Util;
+using System;
 
 namespace Amheklerior.Solitaire {
 
@@ -41,17 +42,23 @@ namespace Amheklerior.Solitaire {
                 _renderer.Flip();
         }
 
-        public void MoveTo(Vector3 position) {
-            _controller.Move(position);
-            PlaySound();
+        public void DragTo(Vector3 position) => MoveTo(position, false);
+        public void DropTo(Vector3 position) => Pile.MoveTo(position);
+
+        public void PlaceTo(Vector3 position) {
+            Game.StartAction();
+            MoveTo(position, true, () => Game.EndAction());
         }
 
-        public void DragTo(Vector3 position) => Pile.MoveTo(position);
-        public void DropTo(Vector3 position) => Pile.MoveTo(position, true);
+        public void MoveTo(Vector3 position, bool withAudio = true, Action onComplete = null) {
+            _controller.Move(position, onComplete);
+            if (withAudio) PlaySound();
+        }
 
         [ContextMenu("Flip")]
         public void Flip() {
-            _controller.Flip();
+            Game.StartAction();
+            _controller.Flip(() => Game.EndAction());
             _renderer.Flip();
             PlaySound();
         }

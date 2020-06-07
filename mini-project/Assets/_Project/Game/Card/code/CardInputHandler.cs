@@ -99,13 +99,13 @@ namespace Amheklerior.Solitaire {
             _origin = (IDragDropOrigin) _card.Stack ?? _card.Pile.Previous;
         }
 
-        private void DragCard() => _card.DragTo(PointOnScreen);
+        private void DragCard() => _card.Pile.DragTo(PointOnScreen);
 
         private void DetechDestination() => _destination = GetHoveredDropArea();
         
         private void DropCard() => GlobalCommandExecutor.Execute(new SolitaireMove(_card, _origin, _destination));
         
-        private void RollBack() => _card.DragTo(_initialPosition);
+        private void RollBack() => _card.DropTo(_initialPosition);
 
         private void ClearData() {
             _isSelected = false;
