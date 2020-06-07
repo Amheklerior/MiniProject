@@ -4,7 +4,7 @@ using System;
 
 namespace Amheklerior.Solitaire {
 
-    [RequireComponent(typeof(CardRenderer))]
+    [RequireComponent(typeof(CardGraphicsController))]
     public class CardController : MonoBehaviour {
 
         [Header("Settings:")]
@@ -14,15 +14,15 @@ namespace Amheklerior.Solitaire {
 
         #region Info
 
-        public Seed Seed => _cardData.Seed;
-        public Number Number => _cardData.Number;
-        public Color Color => _cardData.Color;
+        public Seed Seed => _card.Seed;
+        public Number Number => _card.Number;
+        public Color Color => _card.Color;
 
         public CardPileNode Pile { get; private set; }
         public CardStackComponent Stack { get; set; }
 
-        public bool IsSelectable => _renderer.IsFacingUp;
-        public bool IsFacingUp => _renderer.IsFacingUp;
+        public bool IsSelectable => _graphicsController.IsFacingUp;
+        public bool IsFacingUp => _graphicsController.IsFacingUp;
         public bool IsAPile() => Pile.HasNext;
 
         #endregion
@@ -33,13 +33,13 @@ namespace Amheklerior.Solitaire {
         public void Deactivate() => gameObject.SetActive(false);
 
         public void Show() {
-            if (!_renderer.IsFacingUp)
-                _renderer.Flip();
+            if (!_graphicsController.IsFacingUp)
+                _graphicsController.Flip();
         }
 
         public void Hide() {
-            if (_renderer.IsFacingUp)
-                _renderer.Flip();
+            if (_graphicsController.IsFacingUp)
+                _graphicsController.Flip();
         }
 
         public void DragTo(Vector3 position) => MoveTo(position, false);
@@ -59,7 +59,7 @@ namespace Amheklerior.Solitaire {
         public void Flip() {
             Game.StartAction();
             _controller.Flip(() => Game.EndAction());
-            _renderer.Flip();
+            _graphicsController.Flip();
             PlaySound();
         }
 
@@ -79,16 +79,16 @@ namespace Amheklerior.Solitaire {
 
         #region Internals
 
-        private Card _cardData;
+        private Card _card;
         private CardAnimator _controller;
-        private CardRenderer _renderer;
+        private CardGraphicsController _graphicsController;
         private AudioSource _audioSource;
 
         public void Init(Seed seed, Number number) {
-            _cardData = new Card(seed, number);
+            _card = new Card(seed, number);
             _controller = new CardAnimator(this, _movementAnimationTime, _rotationAnimationTime);
-            _renderer = GetComponent<CardRenderer>();
-            _renderer.Init(seed, number);
+            _graphicsController = GetComponentInChildren<CardGraphicsController>();
+            _graphicsController.Init(_card.Color, seed, number);
             _audioSource = GetComponent<AudioSource>();
             Pile = GetComponent<CardPileNode>();
         }
