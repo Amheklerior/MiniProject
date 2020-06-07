@@ -5,7 +5,7 @@ namespace Amheklerior.Solitaire {
     public class CardPileNode : MonoBehaviour, IDragDropOrigin, IDragDropDestination {
 
         [Header("Settings:")]
-        [SerializeField] private Vector3 _pileOffset = new Vector3(0f, -0.2f, -0.1f);
+        [SerializeField] private Vector3 _pileOffset;
 
         public CardController Card { get; private set; }
 
@@ -47,6 +47,7 @@ namespace Amheklerior.Solitaire {
         private void Awake() {
             Card = GetComponent<CardController>();
             _transform = transform;
+            _pileOffset = _pileOffset == null ? new Vector3(0f, -0.2f, -0.1f) : _pileOffset;
         }
 
         private void AttachNext(CardPileNode pile) {

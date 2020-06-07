@@ -526,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e36239f803477348b413bed614b213b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pileOffset: {x: 0, y: -0.2, z: -0.1}
+  _pileOffset: {x: 0, y: -0.25, z: -0.1}
 --- !u!114 &8250415609090889207
 MonoBehaviour:
   m_ObjectHideFlags: 0

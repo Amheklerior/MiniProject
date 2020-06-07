@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 128474245}
   - component: {fileID: 128474247}
   m_Layer: 0
-  m_Name: DealingDeck
+  m_Name: Dealing Deck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5045498191836966087}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630ab422ad94cac47a7766e59bede3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dealingAnimationTime: 0.05
   _cardGenerator: {fileID: 11400000, guid: 1de580c23096a4b43ac212f7b2fed57f, type: 2}
+  _tableuPiles: []
 --- !u!114 &128474246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +93,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.65097654, y: 1.01}
+    oldSize: {x: 0.8515625, y: 1.28125}
     newSize: {x: 3.9, y: 6.06}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -139,8 +141,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 21c3f37e9ee93f34f943b3eb3e058da6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Sprite: {fileID: 21300000, guid: abe316cd2d6b29243b6975b1c384a4fe, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
