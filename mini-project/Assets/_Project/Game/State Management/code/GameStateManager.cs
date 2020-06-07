@@ -1,10 +1,26 @@
 ﻿using UnityEngine;
 using Amheklerior.Core.Time;
+using Amheklerior.Core.EventSystem;
 using Amheklerior.Solitaire.Util;
 
 namespace Amheklerior.Solitaire {
 
-    public class GameStateManager : MonoBehaviour {
+    public class GameStateManager : GameEventListener {
+
+        #region Victory checking
+
+        private int _completedFoundationStackCount;
+
+        public override void OnEventRaised() {
+            _completedFoundationStackCount++;
+            if (_completedFoundationStackCount == 4) Victory();
+        }
+
+        private void Victory() {
+            Debug.Log("YOU WON");
+        }
+
+        #endregion
 
         #region Score
 
@@ -51,6 +67,6 @@ namespace Amheklerior.Solitaire {
         public void DecrementGameBusyIndicator() => _busyIndicator--;
 
         #endregion
-        
+
     }
 }

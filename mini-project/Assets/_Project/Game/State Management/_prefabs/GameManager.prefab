@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1386e2b7be9f24582af9153ce6d6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 190744d08b7343e498468dd7e76ff976, type: 2}
   _score: {fileID: 11400000, guid: f392710894cf81f44b7309701b75a05b, type: 2}
   _moves: {fileID: 11400000, guid: 4195eac7491277a4caf597d67fe1971c, type: 2}

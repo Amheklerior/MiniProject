@@ -25,7 +25,7 @@ namespace Amheklerior.Solitaire {
         public static void UpdateScoreBy(int value) => StateManager.UpdateScoreBy(value);
 
         public static void UpdateScoreBy(GameScore scoringMove) => StateManager.UpdateScoreBy((int) scoringMove);
-
+        
         #region Internals
 
         private static GameStateManager _stateManager;

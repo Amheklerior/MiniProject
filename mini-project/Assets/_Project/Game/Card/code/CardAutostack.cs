@@ -3,7 +3,10 @@ using Amheklerior.Core.Time;
 using Amheklerior.Core.EventSystem;
 
 namespace Amheklerior.Solitaire {
-    
+
+    [CreateAssetMenu(menuName = "Solitaire/Card/Card Event")]
+    public class CardEvent : GameEvent<Card> { }
+
     public class CardAutostack : MonoBehaviour {
 
         [Header("Settings:")]

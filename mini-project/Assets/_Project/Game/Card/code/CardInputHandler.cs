@@ -16,21 +16,26 @@ namespace Amheklerior.Solitaire {
     #endregion
     
     public class CardInputHandler : MonoBehaviour {
+
+        [SerializeField] private float _movementDeltaForCardSelection = 0.4f;
         
         private void OnMouseDown() {
             if (!_card.IsSelectable || Game.IsBusy) return;
-            StartDraggingCard();
+            TakeGrabPosition();
         }
 
         private void OnMouseDrag() {
-            if (!_isBeingDragged) return;
+            if (!_card.IsSelectable || Game.IsBusy) return;
             DragCard();
+            if (!_isSelected) CheckForSelection();
+            else DetechDestination();
         }
-
+        
         private void OnMouseUp() {
-            if (!_isBeingDragged) return;
-            if (IsOnValidDropPosition) DropCard();
-            else {
+            if (!_card.IsSelectable || Game.IsBusy) return;
+            if (_isSelected && IsOnValidDropPosition) {
+                DropCard();
+            } else {
                 RollBack();
                 ClearData();
             }
@@ -43,9 +48,11 @@ namespace Amheklerior.Solitaire {
         private Card _card;
         private Camera _cam;
         
-        private bool _isBeingDragged;
+        private bool _isSelected;
         private Vector3 _initialPosition;
-        private Vector2 _delta;
+        private Vector2 _grabPosition;
+        private Vector2 _grabDelta;
+
         private IDragDropDestination _destination;
         private IDragDropOrigin _origin;
 
@@ -53,7 +60,7 @@ namespace Amheklerior.Solitaire {
 
         private Vector3 PointOnScreen {
             get {
-                var pointer = _cam.ScreenToWorldPoint(Input.mousePosition) + (Vector3)_delta;
+                var pointer = _cam.ScreenToWorldPoint(Input.mousePosition) + (Vector3)_grabDelta;
                 pointer.z = -10f;
                 return pointer;
             }
@@ -76,24 +83,32 @@ namespace Amheklerior.Solitaire {
             return null;
         }
 
-        private void StartDraggingCard() {
-            _isBeingDragged = true;
+        void TakeGrabPosition() {
+            _grabPosition = PointOnScreen;
             _initialPosition = _tranform.position;
-            _delta = ComputeDelta();
+            _grabDelta = ComputeDelta();
+        }
+
+        private void CheckForSelection() {
+            if (((Vector2) PointOnScreen - _grabPosition).magnitude > _movementDeltaForCardSelection)
+                StartDraggingCard();
+        }
+
+        private void StartDraggingCard() {
+            _isSelected = true;
             _origin = (IDragDropOrigin) _card.Stack ?? _card.Pile.Previous;
         }
 
-        private void DragCard() {
-            _card.DragTo(PointOnScreen);
-            _destination = GetHoveredDropArea();
-        }
+        private void DragCard() => _card.DragTo(PointOnScreen);
 
+        private void DetechDestination() => _destination = GetHoveredDropArea();
+        
         private void DropCard() => GlobalCommandExecutor.Execute(new SolitaireMove(_card, _origin, _destination));
         
         private void RollBack() => _card.DragTo(_initialPosition);
 
         private void ClearData() {
-            _isBeingDragged = false;
+            _isSelected = false;
             _origin = null;
             _destination = null;
         }

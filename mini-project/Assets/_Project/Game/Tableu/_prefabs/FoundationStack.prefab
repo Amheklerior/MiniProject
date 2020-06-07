@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _seed: 0
+  _stackCompletedEvent: {fileID: 11400000, guid: 190744d08b7343e498468dd7e76ff976,
+    type: 2}
 --- !u!114 &6924800144502009217
 MonoBehaviour:
   m_ObjectHideFlags: 0
