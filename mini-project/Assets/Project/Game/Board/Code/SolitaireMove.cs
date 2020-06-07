@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Amheklerior.Solitaire.Util;
+using Amheklerior.Core.Command;
 
 namespace Amheklerior.Solitaire {
 

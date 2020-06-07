@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Amheklerior.Core.EventSystem;
-using Amheklerior.Solitaire.Util;
+using Amheklerior.Core.Command;
 
 namespace Amheklerior.Solitaire {
 
