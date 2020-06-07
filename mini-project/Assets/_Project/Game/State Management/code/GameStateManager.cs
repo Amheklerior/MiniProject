@@ -9,6 +9,8 @@ namespace Amheklerior.Solitaire {
 
         #region Victory checking
 
+        [SerializeField] private GameEvent _gameWon;
+
         private int _completedFoundationStackCount;
 
         public override void OnEventRaised() {
@@ -17,12 +19,13 @@ namespace Amheklerior.Solitaire {
         }
 
         private void Victory() {
-            Debug.Log("YOU WON");
+            _busyIndicator++;
+            _gameWon.Raise();
         }
 
         #endregion
 
-        #region Score
+        #region Score Management
 
         [SerializeField] private IntVariable _score;
 
