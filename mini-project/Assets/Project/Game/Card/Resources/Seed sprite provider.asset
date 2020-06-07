@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40cb11fe1ff17ad44b7b291192e43bc9, type: 3}
+  m_Name: Seed sprite provider
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 21300000, guid: 2bb4042c5a5577a4c9a2262779790cbd, type: 3}
+  - {fileID: 21300000, guid: ea9e6a86abd66dc458f90b2759b486cd, type: 3}
+  - {fileID: 21300000, guid: 29c5f47a2f862664c90d41d62035a076, type: 3}
+  - {fileID: 21300000, guid: 3a5651f3bf500f54ab383bb84bb40711, type: 3}
