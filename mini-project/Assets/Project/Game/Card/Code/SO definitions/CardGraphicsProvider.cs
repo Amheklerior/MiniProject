@@ -33,6 +33,6 @@ namespace Amheklerior.Solitaire {
 
         private bool IsRed(Color color) => color == Color.RED;
         private bool IsFigure(Number number) => (int) number > 10;
-        private int FigureIndex(Color color, Number number) => (int) number - 11 + (IsRed(color) ? 3 : 0);
+        private int FigureIndex(Color color, Number number) => (int) number - 11 + (IsRed(color) ? 0 : 3);
     }
 }

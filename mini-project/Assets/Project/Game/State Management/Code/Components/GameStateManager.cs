@@ -11,7 +11,7 @@ namespace Amheklerior.Solitaire {
 
         [SerializeField] private GameEvent _gameWon;
 
-        private int _completedFoundationStackCount;
+        private int _completedFoundationStackCount = 0;
 
         public override void OnEventRaised() {
             _completedFoundationStackCount++;
@@ -21,6 +21,7 @@ namespace Amheklerior.Solitaire {
         private void Victory() {
             _busyIndicator++;
             _gameWon.Raise();
+            Debug.Log("YOU WON!");
         }
 
         #endregion
